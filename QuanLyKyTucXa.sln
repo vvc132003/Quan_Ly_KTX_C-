@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyKyTucXa", "QuanLyKyTucXa\QuanLyKyTucXa.csproj", "{F46BBA41-A3C9-4D6F-80EC-41D1A72B0FE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F46BBA41-A3C9-4D6F-80EC-41D1A72B0FE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46BBA41-A3C9-4D6F-80EC-41D1A72B0FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46BBA41-A3C9-4D6F-80EC-41D1A72B0FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46BBA41-A3C9-4D6F-80EC-41D1A72B0FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12C32D03-2FE2-442D-A925-8AA7AC6C8649}
+	EndGlobalSection
+EndGlobal
