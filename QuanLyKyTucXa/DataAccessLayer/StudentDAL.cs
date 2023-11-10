@@ -16,10 +16,10 @@ internal class StudentDAL
     {
         List<SinhVien> students = new List<SinhVien>();
             connection.Open();
-            string query = "SELECT * FROM SinhVien WHERE  trang_thai = 'Ðã thuê'";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("GetAllStudents", connection))
             {
-                using (SqlDataReader reader = command.ExecuteReader())
+            command.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {

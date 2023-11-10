@@ -16,30 +16,33 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public List<Phong> GetAllPhong()
         {
             List<Phong> phongList = new List<Phong>();
-                connection.Open();
-                string query = "SELECT * FROM Phong";
-                using (SqlCommand command = new SqlCommand(query, connection))
+            connection.Open();
+            using (SqlCommand command = new SqlCommand("GetAllPhongProcedure", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        Phong phong = new Phong
                         {
-                            Phong phong = new Phong
-                            {
-                                id = Convert.ToInt32(reader["id"]),
-                                loaiphong = reader["loaiphong"].ToString(),
-                                sogiuong = Convert.ToInt32(reader["sogiuong"]),
-                                songuoio = Convert.ToInt32(reader["songuoio"]),
-                                giaphong = Convert.ToSingle(reader["giaphong"])
-                            };
-                            phongList.Add(phong);
-                        }
+                            id = Convert.ToInt32(reader["id"]),
+                            loaiphong = reader["loaiphong"].ToString(),
+                            sogiuong = Convert.ToInt32(reader["sogiuong"]),
+                            songuoio = Convert.ToInt32(reader["songuoio"]),
+                            giaphong = Convert.ToSingle(reader["giaphong"])
+                        };
+                        phongList.Add(phong);
                     }
                 }
+            }
+
             connection.Close();
 
             return phongList;
         }
+
         public void ThemPhong(Phong phong)
         {
             connection.Open();

@@ -16,7 +16,7 @@ namespace ketnoicsdllan1.PresentationLayer
         private static StudentBLL studentBLL = new StudentBLL();
         private static ThuePhongBll thuePhongBll = new ThuePhongBll();
         private static TraPhongBLL traPhongBLL = new TraPhongBLL();
-        private static ChuyenPhonhBLL chuyenPhonhBLL = new ChuyenPhonhBLL();
+        private static ChuyenPhongBLL chuyenPhonhBLL = new ChuyenPhongBLL();
         private static NguoiDungBLL nguoiDungBLL = new NguoiDungBLL();
         private static Menu menu = new Menu();
         static void Main(string[] args)

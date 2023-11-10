@@ -2,6 +2,7 @@
 using QuanLyKyTucXa.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public void ThuePhong(ThuePhong thuePhong)
         {
             connection.Open();
-            string query = "INSERT INTO ThuePhong (idnguoidung, idphong, trangthai, idsinhvien, ngaythue) " +
-                           "VALUES (@idnguoidung, @idphong, @trangthai, @idsinhvien, @ngaythue)";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("ThuePhongs", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@idnguoidung", thuePhong.idnguoidung);
                 command.Parameters.AddWithValue("@idphong", thuePhong.idphong);
                 command.Parameters.AddWithValue("@trangthai", thuePhong.trangthai);
@@ -36,9 +36,7 @@ namespace QuanLyKyTucXa.DataAccessLayer
 
             connection.Open();
 
-            string query = "SELECT * FROM ThuePhong";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("GetAllThuePhong", connection))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
                 {

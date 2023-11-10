@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace QuanLyKyTucXa.BusinessLogicLayer
 {
-    internal class ChuyenPhonhBLL
+    internal class ChuyenPhongBLL
     {
-        private ChuyenPhonhDAL chuyenPhonhDAL = new ChuyenPhonhDAL();
+        private ChuyenPhongDAL chuyenPhonhDAL = new ChuyenPhongDAL();
 
         public void ChuyenPhong(ChuyenPhong chuyenPhong, int idphongcu, int idphongmoi, string masv)
         {

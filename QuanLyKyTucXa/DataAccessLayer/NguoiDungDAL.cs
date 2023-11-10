@@ -20,9 +20,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
             {
                 connection.Open();
             }
-            string query = "SELECT matkhau, tendangnhap FROM NguoiDung WHERE tendangnhap = @tendangnhap AND matkhau = @matkhau";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("CheckThongTinDangNhap", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@tendangnhap", tendangnhap);
                 command.Parameters.AddWithValue("@matkhau", matkhau);
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -48,9 +48,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
             {
                 connection.Open();
             }
-            string updateQuery = "UPDATE NguoiDung SET matkhau = @matkhau WHERE tendangnhap = @tendangnhap";
-            using (SqlCommand command = new SqlCommand(updateQuery, connection))
+            using (SqlCommand command = new SqlCommand("CapNhatMatKhau", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@matkhau", matkhaumoi);
                 command.Parameters.AddWithValue("@tendangnhap", tendangnhap);
                 command.ExecuteNonQuery();

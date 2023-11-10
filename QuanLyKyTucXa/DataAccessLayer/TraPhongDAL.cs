@@ -2,6 +2,7 @@
 using QuanLyKyTucXa.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public void TraPhong(TraPhong traPhong, int idphong)
         {
             connection.Open();
-            string query = "INSERT INTO TraPhong (idsinhvien, idnguoidung, idphong, lydo, ngaytra) " +
-                           "VALUES (@idsinhvien, @idnguoidung, @idphong, @lydo, @ngaytra)";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("TraPhongs", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@idsinhvien", traPhong.idsinhvien);
                 command.Parameters.AddWithValue("@idnguoidung", traPhong.idnguoidung);
                 command.Parameters.AddWithValue("@idphong", idphong);
@@ -33,15 +33,12 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public List<TraPhong> GetAllTinTraPhong()
         {
             List<TraPhong> danhSachTraPhong = new List<TraPhong>();
-
             connection.Open();
-
-            string query = "SELECT * FROM TraPhong";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("GetAllTinTraPhong", connection))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     while (reader.Read())
                     {
                         TraPhong traPhong = new TraPhong
