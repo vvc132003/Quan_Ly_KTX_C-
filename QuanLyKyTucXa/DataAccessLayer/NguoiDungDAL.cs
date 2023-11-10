@@ -29,7 +29,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
                 {
                     if (reader.Read())
                     {
-                        return new NguoiDung { tendangnhap = reader["tendangnhap"].ToString() };
+                        return new NguoiDung { 
+                            tendangnhap = reader["tendangnhap"].ToString() 
+                        };
                     }
                     else
                     {
