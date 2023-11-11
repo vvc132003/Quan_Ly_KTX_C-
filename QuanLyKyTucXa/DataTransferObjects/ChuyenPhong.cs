@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,12 +32,12 @@ namespace QuanLyKyTucXa.DataTransferObjects
 
         public void NhapThongTinChuyenPhong()
         {
-
             Console.Write("Ly Do: ");
             lydo = Console.ReadLine();
 
-            Console.Write("Ngay Chuyen (YYYY-MM-DD): ");
-            ngaychuyen = DateTime.Parse(Console.ReadLine());
+            Console.Write("Ngay Chuyen (MM/dd/yyyy): ");
+            ngaychuyen = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
+
         }
 
 

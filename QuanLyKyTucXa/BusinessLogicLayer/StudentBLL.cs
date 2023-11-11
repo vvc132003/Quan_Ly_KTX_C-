@@ -44,11 +44,12 @@ namespace ketnoicsdllan1.BusinessLogicLayer
         {
             studentDAL.ThemSinhVien(student);
         }
-        public int LayIdPhongCuaSV(string idsv)
+        public Tuple<int, DateTime> LayThongTinPhongVaNgayThue(string idsv)
         {
-            int idphong = studentDAL.LayIdPhongCuaSV(idsv);
-            return idphong;
+            Tuple<int, DateTime> thongTin = studentDAL.LayThongTinPhongVaNgayThue(idsv);
+            return thongTin;
         }
+
 
         public void CapNhatPhongChoSinhVien(string id, int idphong)
         {

@@ -3,6 +3,8 @@ using QuanLyKyTucXa.DataAccessLayer;
 using QuanLyKyTucXa.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +31,12 @@ namespace QuanLyKyTucXa.BusinessLogicLayer
                 Console.WriteLine("Ten dang nhap hoac mat khau bi sai!!!");
                 return null;
             }
+        }
+
+        public int LayIDNguoiDung(string tendangnhap)
+        {
+            int idnguoidung = nguoiDungDAL.LayIDNguoiDung(tendangnhap);
+            return idnguoidung;
         }
         public void CapNhatMatKhau()
         {

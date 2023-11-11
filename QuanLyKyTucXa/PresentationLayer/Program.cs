@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.NetworkInformation;
 using ketnoicsdllan1.BusinessLogicLayer;
 using ketnoicsdllan1.PresentationLayer;
@@ -233,11 +234,14 @@ namespace ketnoicsdllan1.PresentationLayer
                                             {
                                                 SinhVien sinhVien = new SinhVien();
                                                 sinhVien.NhapThongTinSinhVien();
+                                                Console.Write("Ngay vao (MM/dd/yyyy): ");
+                                                sinhVien.ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
                                                 sinhVien.idphong = id;
                                                 sinhVien.trang_thai = "Đã thuê";
                                                 studentBLL.ThemSinhVien(sinhVien);
                                                 phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
-                                                thuePhongBll.ThuePhong(sinhVien.id, id);
+                                                int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                                thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngaynhaphoc);
                                                 Console.WriteLine("Thue phong thanh cong!");
                                             }
                                             else
@@ -268,22 +272,26 @@ namespace ketnoicsdllan1.PresentationLayer
                                 Console.Write("Nhap ID Phong Moi: ");
                                 int idphongmoi = int.Parse(Console.ReadLine());
                                 Phong phongmoi = phongBLL.LayPhongTheoMa(idphongmoi);
+                                ChuyenPhong chuyenPhong = new ChuyenPhong();
+                                chuyenPhong.NhapThongTinChuyenPhong();
                                 if (phongmoi != null && phongmoi.songuoio < phongmoi.sogiuong)
                                 {
-                                    int idphongcu = studentBLL.LayIdPhongCuaSV(masv);
-                                    if (idphongcu != 0)
+                                    Tuple<int, DateTime> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
+                                    int idphongcu = st.Item1;  
+                                    DateTime ngaynhaphoc = st.Item2;
+                                    if (idphongcu != 0 && chuyenPhong.ngaychuyen > ngaynhaphoc)
                                     {
                                         Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
                                         phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
                                         phongBLL.CapNhatSoNguoiO(phongupdatecu, phongupdatecu.songuoio - 1);
-                                        ChuyenPhong chuyenPhong = new ChuyenPhong();
-                                        chuyenPhonhBLL.ChuyenPhong(chuyenPhong, idphongcu, idphongmoi, masv);
+                                        int idnguoidung2 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                        chuyenPhonhBLL.ChuyenPhong(chuyenPhong, idphongcu, idphongmoi, masv, idnguoidung2);
                                         studentBLL.CapNhatPhongChoSinhVien(masv, idphongmoi);
                                         Console.WriteLine("Chuyen phong thanh cong.");
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Sinh vien chua duoc phan phong.");
+                                        Console.WriteLine("Ngay chuyen khong duojc nho hon ngay nhap hoc!.");
                                     }
                                 }
                                 else
@@ -295,14 +303,23 @@ namespace ketnoicsdllan1.PresentationLayer
                                 // Trả phòng
                                 SinhVien sinhvien = new SinhVien();
                                 Console.Write("Nhap ma sinh vien muon tra: ");
-                                sinhvien.id = Console.ReadLine();
+                                string masvtraphong = Console.ReadLine();
                                 studentBLL.UpdateTrangThaiStudent(sinhvien, sinhvien.id);
                                 TraPhong traphong = new TraPhong();
-                                int idphong = studentBLL.LayIdPhongCuaSV(sinhvien.id);
-                                traPhongBLL.TraPhong(traphong, idphong, sinhvien.id);
-                                Phong phongupdates = phongBLL.LayPhongTheoMa(idphong);
-                                phongBLL.CapNhatSoNguoiO(phongupdates, phongupdates.songuoio - 1);
-                                Console.WriteLine("Tra phong thanh cong!");
+                                Tuple<int, DateTime> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
+                                int idphong = sts.Item1;
+                                int idnguoidung3 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                if (idphong !=0)
+                                {
+                                    traPhongBLL.TraPhong(traphong, idphong, sinhvien.id, idnguoidung3);
+                                    Phong phongupdates = phongBLL.LayPhongTheoMa(idphong);
+                                    phongBLL.CapNhatSoNguoiO(phongupdates, phongupdates.songuoio - 1);
+                                    Console.WriteLine("Tra phong thanh cong!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Sinh vien chua duoc phan phong hoac phong khong ton tai.");
+                                }
                                 break;
                         }
 

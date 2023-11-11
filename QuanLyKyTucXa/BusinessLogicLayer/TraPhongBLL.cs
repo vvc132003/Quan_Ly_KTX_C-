@@ -12,10 +12,10 @@ namespace QuanLyKyTucXa.BusinessLogicLayer
     {
         private TraPhongDAL traPhongDAL = new TraPhongDAL();
 
-        public void TraPhong(TraPhong traPhong, int idphong,string masv )
+        public void TraPhong(TraPhong traPhong, int idphong,string masv ,int idnguoidung)
         {
             traPhong.NhapThongTinTraPhong();
-            traPhong.idnguoidung = 1;
+            traPhong.idnguoidung = idnguoidung;
             traPhong.idphong = idphong;
             traPhong.idsinhvien = masv;
             traPhongDAL.TraPhong(traPhong, idphong);

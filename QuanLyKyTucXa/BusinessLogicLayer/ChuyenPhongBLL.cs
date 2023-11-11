@@ -12,10 +12,9 @@ namespace QuanLyKyTucXa.BusinessLogicLayer
     {
         private ChuyenPhongDAL chuyenPhonhDAL = new ChuyenPhongDAL();
 
-        public void ChuyenPhong(ChuyenPhong chuyenPhong, int idphongcu, int idphongmoi, string masv)
+        public void ChuyenPhong(ChuyenPhong chuyenPhong, int idphongcu, int idphongmoi, string masv, int idnguoidung)
         {
-            chuyenPhong.NhapThongTinChuyenPhong();
-            chuyenPhong.idnguoidung = 1;
+            chuyenPhong.idnguoidung = idnguoidung;
             chuyenPhong.idphongcu = idphongcu;
             chuyenPhong.idphongmoi = idphongmoi;
             chuyenPhong.idsinhvien = masv;

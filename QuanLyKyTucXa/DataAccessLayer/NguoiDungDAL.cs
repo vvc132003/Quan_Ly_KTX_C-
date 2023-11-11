@@ -44,6 +44,34 @@ namespace QuanLyKyTucXa.DataAccessLayer
                 connection.Close();
             }
         }
+
+        public int LayIDNguoiDung(string tendangnhap)
+        {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            using (SqlCommand command = new SqlCommand("LayIDNguoiDung", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@tendangnhap", tendangnhap);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return (int)reader["id"];
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+            }
+            if (connection.State == ConnectionState.Open)
+            {
+                connection.Close();
+            }
+        }
         public void CapNhatMatKhau(string tendangnhap, string matkhaumoi)
         {
             if (connection.State == ConnectionState.Closed)

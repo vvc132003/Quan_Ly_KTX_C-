@@ -12,13 +12,13 @@ namespace QuanLyKyTucXa.BusinessLogicLayer
     {
         private ThuePhonhDAL thuePhonhDAL = new ThuePhonhDAL();
 
-        public void ThuePhong(String masv, int id)
+        public void ThuePhong(String masv, int id, int idnguoidung, DateTime ngaythue)
         {
             ThuePhong thuePhong = new ThuePhong();
             thuePhong.idsinhvien = masv;
-            thuePhong.ngaythue = DateTime.Now;
+            thuePhong.ngaythue = ngaythue;
             thuePhong.trangthai = "Đã thuê";
-            thuePhong.idnguoidung = 1;
+            thuePhong.idnguoidung = idnguoidung;
             thuePhong.idphong = id;
             thuePhonhDAL.ThuePhong(thuePhong);
             Console.WriteLine("Thue phong thanh cong!");

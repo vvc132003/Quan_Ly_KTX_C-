@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace QuanLyKyTucXa.DataTransferObjects
             lydo = Console.ReadLine();
 
             Console.Write("Ngay tra (MM/dd/yyyy): ");
-            ngaytra = DateTime.ParseExact(Console.ReadLine(), "MM/dd/yyyy", null);
+            ngaytra = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
         }
     }
 }

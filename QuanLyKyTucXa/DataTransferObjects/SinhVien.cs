@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,11 +54,9 @@ namespace QuanLyKyTucXa.DataTransferObjects
             Console.Write("Quê quán: ");
             quequan = Console.ReadLine();
 
-            Console.Write("Ngày nhập học (MM/dd/yyyy): ");
-            ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "MM/dd/yyyy", null);
-
             Console.Write("Ngày sinh (MM/dd/yyyy): ");
-            ngaysinh = DateTime.ParseExact(Console.ReadLine(), "MM/dd/yyyy", null);
+            ngaysinh = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
+
         }
         public void HienThiThongTinSinhVien()
         {
