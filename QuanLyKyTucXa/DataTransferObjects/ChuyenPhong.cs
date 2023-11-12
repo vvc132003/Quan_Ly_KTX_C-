@@ -36,7 +36,7 @@ namespace QuanLyKyTucXa.DataTransferObjects
             lydo = Console.ReadLine();
 
             Console.Write("Ngay Chuyen (MM/dd/yyyy): ");
-            ngaychuyen = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
+            ngaychuyen = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
         }
 

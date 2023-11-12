@@ -17,6 +17,7 @@ namespace QuanLyKyTucXa.PresentationLayer
             Console.WriteLine("|*4. Doi mat khau                               |");
             Console.WriteLine("|*5. Quan ly chuyen phong                       |");
             Console.WriteLine("|*6. Quan ly tra phong                          |");
+            Console.WriteLine("|*7. Dang xuat                                  |");
             Console.WriteLine("|*0. Ket thuc                                   |");
             Console.WriteLine("-------------------------------------------------");
             Console.WriteLine("***Moi ban chon***:");

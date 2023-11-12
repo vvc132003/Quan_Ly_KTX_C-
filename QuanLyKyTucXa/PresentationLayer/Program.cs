@@ -37,7 +37,7 @@ namespace ketnoicsdllan1.PresentationLayer
                             try
                             {
                                 chon = int.Parse(Console.ReadLine());
-                                if (chon >= 0 && chon <= 7)
+                                if (chon >= 0 && chon <= 9)
                                     break;
                                 else
                                     Console.WriteLine("Ban da chon sai vui long chon lai!!");
@@ -145,12 +145,12 @@ namespace ketnoicsdllan1.PresentationLayer
                                             studentBLL.GetAllStudents();
                                             break;
                                         case 2:
-                                            Console.Write("Nhap id sinh vien ban muon cap nhat: ");
-                                            string inputId = Console.ReadLine();
+                                            Console.Write("Nhap idssv sinh vien ban muon cap nhat: ");
+                                            string idssv = Console.ReadLine();
                                             SinhVien sinhvienupdate = new SinhVien();
-                                            if (!string.IsNullOrWhiteSpace(inputId))
+                                            if (!string.IsNullOrWhiteSpace(idssv))
                                             {
-                                                sinhvienupdate.id = inputId;
+                                                sinhvienupdate.id = idssv;
                                                 sinhvienupdate.NhapThongTinSinhVien();
                                                 studentBLL.UpdateStudent(sinhvienupdate);
                                                 Console.WriteLine("Sinh vien da duoc cap nhat vao CSDL.");
@@ -235,7 +235,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                                 SinhVien sinhVien = new SinhVien();
                                                 sinhVien.NhapThongTinSinhVien();
                                                 Console.Write("Ngay vao (MM/dd/yyyy): ");
-                                                sinhVien.ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
+                                                sinhVien.ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                                 sinhVien.idphong = id;
                                                 sinhVien.trang_thai = "Đã thuê";
                                                 studentBLL.ThemSinhVien(sinhVien);
@@ -304,14 +304,14 @@ namespace ketnoicsdllan1.PresentationLayer
                                 SinhVien sinhvien = new SinhVien();
                                 Console.Write("Nhap ma sinh vien muon tra: ");
                                 string masvtraphong = Console.ReadLine();
-                                studentBLL.UpdateTrangThaiStudent(sinhvien, sinhvien.id);
+                                studentBLL.UpdateTrangThaiStudent(sinhvien, masvtraphong);
                                 TraPhong traphong = new TraPhong();
                                 Tuple<int, DateTime> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
                                 int idphong = sts.Item1;
                                 int idnguoidung3 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
                                 if (idphong !=0)
                                 {
-                                    traPhongBLL.TraPhong(traphong, idphong, sinhvien.id, idnguoidung3);
+                                    traPhongBLL.TraPhong(traphong, idphong, masvtraphong, idnguoidung3);
                                     Phong phongupdates = phongBLL.LayPhongTheoMa(idphong);
                                     phongBLL.CapNhatSoNguoiO(phongupdates, phongupdates.songuoio - 1);
                                     Console.WriteLine("Tra phong thanh cong!");
@@ -321,8 +321,20 @@ namespace ketnoicsdllan1.PresentationLayer
                                     Console.WriteLine("Sinh vien chua duoc phan phong hoac phong khong ton tai.");
                                 }
                                 break;
+                            case 7:
+                                // Đăng xuất
+                                if (tendangnhap != null)
+                                {
+                                    Console.WriteLine("Dang xuat thanh cong. Tam biet: " + tendangnhap);
+                                    tendangnhap = null;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Chua co nguoi dang nhap.");
+                                }
+                                tendangnhap = nguoiDungBLL.CheckThongTinDangNhap();
+                                break;
                         }
-
                     } while (chon != 0);
                 }
             } while (tendangnhap == null);

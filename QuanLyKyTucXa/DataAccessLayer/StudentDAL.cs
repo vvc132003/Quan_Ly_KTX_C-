@@ -52,8 +52,7 @@ internal class StudentDAL
     {
         connection.Open();
         string query = "INSERT INTO SinhVien (id,tensinhvien, khoahoc, nganhhoc, email, sodienthoai, idphong, gioitinh, quequan,trang_thai,solanvipham, ngaynhaphoc, ngaysinh) VALUES (@id,@tensinhvien, @khoahoc, @nganhhoc, @email, @sodienthoai, @idphong, @gioitinh, @quequan,@trang_thai,@solanvipham, @ngaynhaphoc, @ngaysinh)";
-/*        string id = null;
-*/        using (SqlCommand command = new SqlCommand(query, connection))
+        using (SqlCommand command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@id", sinhVien.id);
             command.Parameters.AddWithValue("@tensinhvien", sinhVien.tensinhvien);
@@ -70,11 +69,9 @@ internal class StudentDAL
             command.Parameters.AddWithValue("@ngaysinh", sinhVien.ngaysinh);
 
             command.ExecuteNonQuery();
-/*            id = sinhVien.id;
-*/        }
+        }
         connection.Close();
-/*        return id;
-*/    }
+    }
 
 
     public void UpdateStudent(SinhVien sinhVien)
@@ -154,25 +151,24 @@ internal class StudentDAL
     public List<SinhVien> TimKiemSinhVienTheoTen(string tensinhvien)
     {
         connection.Open();
-        List<SinhVien> sinhVien = new List<SinhVien>();
-        string query = "SELECT * FROM SinhVien WHERE tensinhvien LIKE @tensinhvien";
+        List<SinhVien> sinhVienlist = new List<SinhVien>();
+        string query = "SELECT * FROM SinhVien WHERE tensinhvien LIKE @tensinhvien AND trang_thai LIKE 'Ðã thuê'";
         SqlCommand command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@tensinhvien", "%" + tensinhvien + "%");
         using (SqlDataReader reader = command.ExecuteReader())
         {
             while (reader.Read())
             {
-                SinhVien student = new SinhVien
+                SinhVien sinhvien = new SinhVien
                 {
-                    id = reader["id"].ToString(),
-                    tensinhvien = reader["Name"].ToString(),
-                    idphong = (int)reader["Age"]
+                    tensinhvien = reader["tensinhvien"].ToString(),
+                    idphong = (int)reader["idphong"]
                 };
-                sinhVien.Add(student);
+                sinhVienlist.Add(sinhvien);
             }
         }
         connection.Close();
-        return sinhVien;
+        return sinhVienlist;
     }
 
 }
