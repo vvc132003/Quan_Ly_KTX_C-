@@ -19,8 +19,7 @@ namespace QuanLyKyTucXa.DataTransferObjects
             Console.Write("Số giường: ");
             sogiuong = int.Parse(Console.ReadLine());
 
-            Console.Write("Giá phòng: ");
-            giaphong = float.Parse(Console.ReadLine());
+            
         }
 
         public void HienThiThongTinPhong()

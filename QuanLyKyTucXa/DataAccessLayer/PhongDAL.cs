@@ -46,12 +46,20 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public void ThemPhong(Phong phong)
         {
             connection.Open();
-            string query = "INSERT INTO Phong (loaiphong, sogiuong, songuoio, giaphong) VALUES (@loaiphong, @sogiuong, @songuoio, @giaphong)";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("ThemPhongs", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@loaiphong", phong.loaiphong);
                 command.Parameters.AddWithValue("@sogiuong", phong.sogiuong);
                 command.Parameters.AddWithValue("@songuoio", phong.songuoio);
+                if (phong.loaiphong == "VIP")
+                {
+                    phong.giaphong = phong.sogiuong * 200000; 
+                }
+                else
+                {
+                    phong.giaphong = phong.sogiuong * 100000; 
+                }
                 command.Parameters.AddWithValue("@giaphong", phong.giaphong);
                 command.ExecuteNonQuery();
             }
@@ -61,9 +69,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public void CapNhatPhong(Phong phong)
         {
             connection.Open();
-            string query = "UPDATE Phong SET loaiphong = @loaiphong, sogiuong = @sogiuong, songuoio = @songuoio, giaphong = @giaphong WHERE id = @id";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("CapNhatPhongs", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@id", phong.id);
                 command.Parameters.AddWithValue("@loaiphong", phong.loaiphong);
                 command.Parameters.AddWithValue("@sogiuong", phong.sogiuong);
@@ -76,9 +84,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public void XoaPhong(int id)
         {
             connection.Open();
-            string query = "DELETE FROM Phong  WHERE id = @id";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("XoaPhongs", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@id", id);
                 command.ExecuteNonQuery();
             }
@@ -90,9 +98,9 @@ namespace QuanLyKyTucXa.DataAccessLayer
             {
                 connection.Open();
             }
-            string query = "UPDATE Phong SET songuoio = @songuoio WHERE id = @id";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("CapNhatSoNguoiOs", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@songuoio", songuoio);
                 command.Parameters.AddWithValue("@id", phong.id);
                 command.ExecuteNonQuery();
@@ -112,10 +120,10 @@ namespace QuanLyKyTucXa.DataAccessLayer
             {
                 connection.Open();
             }
-            string query = "SELECT * FROM Phong WHERE id = @id";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("LayPhongTheoMaS", connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@id", id);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())

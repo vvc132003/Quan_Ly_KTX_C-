@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 
-internal class StudentDAL
+internal class SinhVienDAL
 {
     private SqlConnection connection = DBUtils.GetDBConnection();
 
@@ -51,9 +51,9 @@ internal class StudentDAL
     public void ThemSinhVien(SinhVien sinhVien)
     {
         connection.Open();
-        string query = "INSERT INTO SinhVien (id,tensinhvien, khoahoc, nganhhoc, email, sodienthoai, idphong, gioitinh, quequan,trang_thai,solanvipham, ngaynhaphoc, ngaysinh) VALUES (@id,@tensinhvien, @khoahoc, @nganhhoc, @email, @sodienthoai, @idphong, @gioitinh, @quequan,@trang_thai,@solanvipham, @ngaynhaphoc, @ngaysinh)";
-        using (SqlCommand command = new SqlCommand(query, connection))
+        using (SqlCommand command = new SqlCommand("ThemSinhVienS", connection))
         {
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@id", sinhVien.id);
             command.Parameters.AddWithValue("@tensinhvien", sinhVien.tensinhvien);
             command.Parameters.AddWithValue("@khoahoc", sinhVien.khoahoc);
@@ -74,13 +74,12 @@ internal class StudentDAL
     }
 
 
-    public void UpdateStudent(SinhVien sinhVien)
+    public void UpdateSinhVien(SinhVien sinhVien)
     {
         connection.Open();
-        string query = "UPDATE SinhVien SET tensinhvien = @tensinhvien, khoahoc = @khoahoc, nganhhoc = @nganhhoc, email = @email, sodienthoai = @sodienthoai, gioitinh = @gioitinh, quequan = @quequan , ngaynhaphoc = @ngaynhaphoc, ngaysinh = @ngaysinh WHERE id = @id";
-
-        using (SqlCommand command = new SqlCommand(query, connection))
+        using (SqlCommand command = new SqlCommand("UpdateSinhViens", connection))
         {
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@tensinhvien", sinhVien.tensinhvien);
             command.Parameters.AddWithValue("@khoahoc", sinhVien.khoahoc);
             command.Parameters.AddWithValue("@nganhhoc", sinhVien.nganhhoc);
@@ -94,17 +93,15 @@ internal class StudentDAL
             command.Parameters.AddWithValue("@id", sinhVien.id);
             command.ExecuteNonQuery();
         }
-
         connection.Close();
     }
 
     public void UpdateTrangThaiStudent(SinhVien student, string masv)
     {
             connection.Open();
-            string query = "UPDATE SinhVien SET  trang_thai = @trang_thai " +
-                           " WHERE id = @id";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand("UpdateTrangThaiStudents", connection))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@trang_thai", student.trang_thai);
                 command.Parameters.AddWithValue("@id", masv);
                 command.ExecuteNonQuery();

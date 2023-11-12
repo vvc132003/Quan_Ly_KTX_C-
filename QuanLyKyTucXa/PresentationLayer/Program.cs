@@ -14,7 +14,7 @@ namespace ketnoicsdllan1.PresentationLayer
     internal class Program
     {
         private static PhongBLL phongBLL = new PhongBLL();
-        private static StudentBLL studentBLL = new StudentBLL();
+        private static SinhVienBLL studentBLL = new SinhVienBLL();
         private static ThuePhongBll thuePhongBll = new ThuePhongBll();
         private static TraPhongBLL traPhongBLL = new TraPhongBLL();
         private static ChuyenPhongBLL chuyenPhonhBLL = new ChuyenPhongBLL();

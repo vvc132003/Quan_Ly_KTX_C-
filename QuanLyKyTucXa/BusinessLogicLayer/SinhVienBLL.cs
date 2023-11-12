@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ketnoicsdllan1.BusinessLogicLayer
 {
-    internal class StudentBLL
+    internal class SinhVienBLL
     {
-        private StudentDAL studentDAL = new StudentDAL();
+        private SinhVienDAL studentDAL = new SinhVienDAL();
 
 
         public void GetAllStudents()
@@ -32,7 +32,7 @@ namespace ketnoicsdllan1.BusinessLogicLayer
         }
         public void UpdateStudent(SinhVien sinhVien)
         {
-            studentDAL.UpdateStudent(sinhVien);
+            studentDAL.UpdateSinhVien(sinhVien);
         }
         public void UpdateTrangThaiStudent(SinhVien sinhVien, string masv)
         {
