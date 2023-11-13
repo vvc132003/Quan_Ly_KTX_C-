@@ -230,19 +230,26 @@ namespace ketnoicsdllan1.PresentationLayer
                                             Console.Write("Ma phong muon thue: ");
                                             int id = int.Parse(Console.ReadLine());
                                             Phong phong = phongBLL.LayPhongTheoMa(id);
+                                            SinhVien sinhVien = new SinhVien();
+                                            sinhVien.NhapThongTinSinhVien();
                                             if (phong != null && phong.songuoio < phong.sogiuong)
                                             {
-                                                SinhVien sinhVien = new SinhVien();
-                                                sinhVien.NhapThongTinSinhVien();
-                                                Console.Write("Ngay vao (MM/dd/yyyy): ");
-                                                sinhVien.ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                                sinhVien.idphong = id;
-                                                sinhVien.trang_thai = "Đã thuê";
-                                                studentBLL.ThemSinhVien(sinhVien);
-                                                phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
-                                                int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                                thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngaynhaphoc);
-                                                Console.WriteLine("Thue phong thanh cong!");
+                                                if(phong.loaiphong == sinhVien.gioitinh)
+                                                {
+                                                    Console.Write("Ngay vao (MM/dd/yyyy): ");
+                                                    sinhVien.ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                                                    sinhVien.idphong = id;
+                                                    sinhVien.trang_thai = "Đã thuê";
+                                                    studentBLL.ThemSinhVien(sinhVien);
+                                                    phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
+                                                    int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                                    thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngaynhaphoc);
+                                                    Console.WriteLine("Thue phong thanh cong!");
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Khong thue phong duoc!");
+                                                }
                                             }
                                             else
                                             {
@@ -276,22 +283,30 @@ namespace ketnoicsdllan1.PresentationLayer
                                 chuyenPhong.NhapThongTinChuyenPhong();
                                 if (phongmoi != null && phongmoi.songuoio < phongmoi.sogiuong)
                                 {
-                                    Tuple<int, DateTime> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
+                                    Tuple<int, DateTime,string> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
                                     int idphongcu = st.Item1;  
                                     DateTime ngaynhaphoc = st.Item2;
-                                    if (idphongcu != 0 && chuyenPhong.ngaychuyen > ngaynhaphoc)
+                                    string gioiTinh = st.Item3;
+                                    if(phongmoi.loaiphong == gioiTinh)
                                     {
-                                        Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
-                                        phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
-                                        phongBLL.CapNhatSoNguoiO(phongupdatecu, phongupdatecu.songuoio - 1);
-                                        int idnguoidung2 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                        chuyenPhonhBLL.ChuyenPhong(chuyenPhong, idphongcu, idphongmoi, masv, idnguoidung2);
-                                        studentBLL.CapNhatPhongChoSinhVien(masv, idphongmoi);
-                                        Console.WriteLine("Chuyen phong thanh cong.");
+                                        if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month > ngaynhaphoc.Month || (chuyenPhong.ngaychuyen.Month == ngaynhaphoc.Month && chuyenPhong.ngaychuyen.Day > ngaynhaphoc.Day)))
+                                        {
+                                            Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
+                                            phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
+                                            phongBLL.CapNhatSoNguoiO(phongupdatecu, phongupdatecu.songuoio - 1);
+                                            int idnguoidung2 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                            chuyenPhonhBLL.ChuyenPhong(chuyenPhong, idphongcu, idphongmoi, masv, idnguoidung2);
+                                            studentBLL.CapNhatPhongChoSinhVien(masv, idphongmoi);
+                                            Console.WriteLine("Chuyen phong thanh cong.");  
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Ngay chuyen khong duojc nho hon ngay nhap hoc!.");
+                                        }
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Ngay chuyen khong duojc nho hon ngay nhap hoc!.");
+                                        Console.WriteLine("Gioi tinh cua sinh vien khong phu hop voi phong do");
                                     }
                                 }
                                 else
@@ -306,7 +321,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                 string masvtraphong = Console.ReadLine();
                                 studentBLL.UpdateTrangThaiStudent(sinhvien, masvtraphong);
                                 TraPhong traphong = new TraPhong();
-                                Tuple<int, DateTime> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
+                                Tuple<int, DateTime,string> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
                                 int idphong = sts.Item1;
                                 int idnguoidung3 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
                                 if (idphong !=0)

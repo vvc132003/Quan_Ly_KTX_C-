@@ -44,9 +44,9 @@ namespace ketnoicsdllan1.BusinessLogicLayer
         {
             studentDAL.ThemSinhVien(student);
         }
-        public Tuple<int, DateTime> LayThongTinPhongVaNgayThue(string idsv)
+        public Tuple<int, DateTime, string> LayThongTinPhongVaNgayThue(string idsv)
         {
-            Tuple<int, DateTime> thongTin = studentDAL.LayThongTinPhongVaNgayThue(idsv);
+            Tuple<int, DateTime,string> thongTin = studentDAL.LayThongTinPhongVaNgayThue(idsv);
             return thongTin;
         }
 

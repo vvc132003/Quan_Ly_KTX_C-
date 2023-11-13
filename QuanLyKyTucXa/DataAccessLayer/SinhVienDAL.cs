@@ -109,12 +109,13 @@ internal class SinhVienDAL
             connection.Close();
     }
 
-    public Tuple<int, DateTime> LayThongTinPhongVaNgayThue(string idsv)
+    public Tuple<int, DateTime, string> LayThongTinPhongVaNgayThue(string idsv)
     {
         int idphong = 0;
         DateTime ngaynhaphoc = DateTime.MinValue;
+        string gioitinh = string.Empty;
         connection.Open();
-        string query = "SELECT idphong,ngaynhaphoc FROM SinhVien WHERE id = @id";
+        string query = "SELECT idphong,ngaynhaphoc,gioitinh FROM SinhVien WHERE id = @id";
         using (SqlCommand command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@id", idsv);
@@ -122,13 +123,14 @@ internal class SinhVienDAL
             {
                 if (reader.Read())
                 {
-                    idphong = reader.GetInt32(0);
-                    ngaynhaphoc = reader.GetDateTime(1);
+                    idphong = (int)reader["idphong"];
+                    ngaynhaphoc = (DateTime)reader["ngaynhaphoc"];
+                    gioitinh = reader["gioitinh"].ToString();
                 }
             }
         }
         connection.Close();
-        return Tuple.Create(idphong, ngaynhaphoc);
+        return Tuple.Create(idphong, ngaynhaphoc, gioitinh);
     }
 
     public void CapNhatPhongChoSinhVien(string id, int idphong)

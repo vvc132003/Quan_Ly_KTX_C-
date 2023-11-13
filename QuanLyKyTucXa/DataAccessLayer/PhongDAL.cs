@@ -52,7 +52,7 @@ namespace QuanLyKyTucXa.DataAccessLayer
                 command.Parameters.AddWithValue("@loaiphong", phong.loaiphong);
                 command.Parameters.AddWithValue("@sogiuong", phong.sogiuong);
                 command.Parameters.AddWithValue("@songuoio", phong.songuoio);
-                if (phong.loaiphong == "VIP")
+                if (phong.loaiphong == "Nam")
                 {
                     phong.giaphong = phong.sogiuong * 200000; 
                 }
@@ -133,6 +133,7 @@ namespace QuanLyKyTucXa.DataAccessLayer
                                 id = (int)reader["id"],
                                 sogiuong = (int)reader["sogiuong"],
                                 songuoio = (int)reader["songuoio"],
+                                loaiphong = reader["loaiphong"].ToString()
                             };
                             return phong;
                         }

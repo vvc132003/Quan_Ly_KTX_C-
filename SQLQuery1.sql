@@ -39,7 +39,7 @@ CREATE PROCEDURE ThemPhongs
     @giaphong FLOAT
 AS
 BEGIN
-    IF @loaiphong = 'VIP'
+    IF @loaiphong = 'Nam'
     BEGIN
         SET @giaphong = @sogiuong * 200000
     END
