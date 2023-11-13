@@ -34,7 +34,7 @@ CREATE TABLE SinhVien (
     quequan VARCHAR(255),
     trang_thai VARCHAR(20),
     solanvipham INT,
-    ngaynhaphoc DATE,
+    ngayvao DATE,
     ngaysinh DATE,
     FOREIGN KEY (idphong) REFERENCES Phong(id)
 );

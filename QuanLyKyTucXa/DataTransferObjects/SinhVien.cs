@@ -20,7 +20,7 @@ namespace QuanLyKyTucXa.DataTransferObjects
         public string quequan { get; set; }
         public string trang_thai { get; set; }
         public int solanvipham { get; set; }
-        public DateTime ngaynhaphoc { get; set; }
+        public DateTime ngayvao { get; set; }
         public DateTime ngaysinh { get; set; }
 
         public void NhapThongTinSinhVien()
@@ -57,10 +57,12 @@ namespace QuanLyKyTucXa.DataTransferObjects
             Console.Write("Ngày sinh (MM/dd/yyyy): ");
             ngaysinh = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
 
+            Console.Write("Ngay vao (MM/dd/yyyy): ");
+            ngayvao = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
         public void HienThiThongTinSinhVien()
         {
-            Console.WriteLine($"|{id,-8}|{tensinhvien,-15}|{khoahoc,-11}|{nganhhoc,-20}|{email,-25}|{sodienthoai,-17}|{idphong,-11}|{gioitinh,-13}|{quequan,-16}|{trang_thai,-19}|{solanvipham,-21}|{ngaynhaphoc:d,-19}|{ngaysinh:d,-17}|");
+            Console.WriteLine($"|{id,-8}|{tensinhvien,-15}|{khoahoc,-11}|{nganhhoc,-20}|{email,-25}|{sodienthoai,-17}|{idphong,-11}|{gioitinh,-13}|{quequan,-16}|{trang_thai,-19}|{solanvipham,-21}|{ngayvao:d,-19}|{ngaysinh:d,-17}|");
         }
         public void HienThiTieuDeSinhVien()
         {

@@ -36,7 +36,7 @@ internal class SinhVienDAL
                             quequan = reader["quequan"].ToString(),
                             trang_thai = reader["trang_thai"].ToString(),
                             solanvipham = (int)reader["solanvipham"],
-                            ngaynhaphoc = (DateTime)reader["ngaynhaphoc"],
+                            ngayvao = (DateTime)reader["ngayvao"],
                             ngaysinh = (DateTime)reader["ngaysinh"]
                         };
                         students.Add(student);
@@ -65,7 +65,7 @@ internal class SinhVienDAL
             command.Parameters.AddWithValue("@quequan", sinhVien.quequan);
             command.Parameters.AddWithValue("@trang_thai", sinhVien.trang_thai);
             command.Parameters.AddWithValue("@solanvipham", sinhVien.solanvipham);
-            command.Parameters.AddWithValue("@ngaynhaphoc", sinhVien.ngaynhaphoc);
+            command.Parameters.AddWithValue("@ngayvao", sinhVien.ngayvao);
             command.Parameters.AddWithValue("@ngaysinh", sinhVien.ngaysinh);
 
             command.ExecuteNonQuery();
@@ -88,7 +88,7 @@ internal class SinhVienDAL
             command.Parameters.AddWithValue("@idphong", sinhVien.idphong);
             command.Parameters.AddWithValue("@gioitinh", sinhVien.gioitinh);
             command.Parameters.AddWithValue("@quequan", sinhVien.quequan);
-            command.Parameters.AddWithValue("@ngaynhaphoc", sinhVien.ngaynhaphoc);
+            command.Parameters.AddWithValue("@ngayvao", sinhVien.ngayvao);
             command.Parameters.AddWithValue("@ngaysinh", sinhVien.ngaysinh);
             command.Parameters.AddWithValue("@id", sinhVien.id);
             command.ExecuteNonQuery();

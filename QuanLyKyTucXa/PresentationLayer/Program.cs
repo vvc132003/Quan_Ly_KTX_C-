@@ -236,19 +236,17 @@ namespace ketnoicsdllan1.PresentationLayer
                                             {
                                                 if(phong.loaiphong == sinhVien.gioitinh)
                                                 {
-                                                    Console.Write("Ngay vao (MM/dd/yyyy): ");
-                                                    sinhVien.ngaynhaphoc = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                                     sinhVien.idphong = id;
                                                     sinhVien.trang_thai = "Đã thuê";
                                                     studentBLL.ThemSinhVien(sinhVien);
                                                     phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
                                                     int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                                    thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngaynhaphoc);
+                                                    thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngayvao);
                                                     Console.WriteLine("Thue phong thanh cong!");
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("Khong thue phong duoc!");
+                                                    Console.WriteLine("Loai phong do la danh cho" + phong.loaiphong + "chu khong phai la " + sinhVien.gioitinh);
                                                 }
                                             }
                                             else
@@ -289,7 +287,9 @@ namespace ketnoicsdllan1.PresentationLayer
                                     string gioiTinh = st.Item3;
                                     if(phongmoi.loaiphong == gioiTinh)
                                     {
-                                        if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month > ngaynhaphoc.Month || (chuyenPhong.ngaychuyen.Month == ngaynhaphoc.Month && chuyenPhong.ngaychuyen.Day > ngaynhaphoc.Day)))
+                                        if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month > ngaynhaphoc.Month 
+                                            || (chuyenPhong.ngaychuyen.Month == ngaynhaphoc.Month 
+                                            && chuyenPhong.ngaychuyen.Day > ngaynhaphoc.Day)))
                                         {
                                             Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
                                             phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
@@ -306,7 +306,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Gioi tinh cua sinh vien khong phu hop voi phong do");
+                                        Console.WriteLine("Loai phong do la danh cho" + phongmoi.loaiphong + "chu khong phai la " + gioiTinh);
                                     }
                                 }
                                 else
