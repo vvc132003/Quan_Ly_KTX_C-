@@ -7,6 +7,7 @@ BEGIN
     SELECT * FROM NguoiDung WHERE tendangnhap = @tendangnhap AND matkhau = @matkhau
 END
 
+
 ---- lấy id người dùng
 
 CREATE PROCEDURE LayIDNguoiDung
@@ -121,12 +122,12 @@ CREATE PROCEDURE ThemSinhVienS
     @quequan VARCHAR(255),
     @trang_thai VARCHAR(20),
     @solanvipham INT,
-    @ngaynhaphoc DATE,
+    @ngayvao DATE,
     @ngaysinh DATE
 AS
 BEGIN
-	INSERT INTO SinhVien (id,tensinhvien, khoahoc, nganhhoc, email, sodienthoai, idphong, gioitinh, quequan,trang_thai,solanvipham, ngaynhaphoc, ngaysinh) 
-    VALUES (@id,@tensinhvien, @khoahoc, @nganhhoc, @email, @sodienthoai, @idphong, @gioitinh, @quequan,@trang_thai,@solanvipham, @ngaynhaphoc, @ngaysinh)
+	INSERT INTO SinhVien (id,tensinhvien, khoahoc, nganhhoc, email, sodienthoai, idphong, gioitinh, quequan,trang_thai,solanvipham, ngayvao, ngaysinh) 
+    VALUES (@id,@tensinhvien, @khoahoc, @nganhhoc, @email, @sodienthoai, @idphong, @gioitinh, @quequan,@trang_thai,@solanvipham, @ngayvao, @ngaysinh)
 END
 
 --- cập nhật sinh viên
@@ -142,13 +143,13 @@ CREATE PROCEDURE UpdateSinhViens
     @quequan VARCHAR(255),
     @trang_thai VARCHAR(20),
     @solanvipham INT,
-    @ngaynhaphoc DATE,
+    @ngayvao DATE,
     @ngaysinh DATE
 AS
 BEGIN
     UPDATE SinhVien SET tensinhvien = @tensinhvien, khoahoc = @khoahoc, nganhhoc = @nganhhoc, 
     email = @email, sodienthoai = @sodienthoai, gioitinh = @gioitinh, quequan = @quequan , 
-    ngaynhaphoc = @ngaynhaphoc, ngaysinh = @ngaysinh WHERE id = @id
+    ngayvao = @ngayvao, ngaysinh = @ngaysinh WHERE id = @id
 END
 
 -- cập nhật trạng thái của sinh viên 
@@ -160,6 +161,31 @@ BEGIN
     UPDATE SinhVien SET  trang_thai = @trang_thai WHERE id = @id
 END
 
+--- sáp xếp giảm dần theo tên sinh viên
+
+CREATE PROCEDURE SapXepSinhVienGiamDanTheoTen
+AS
+BEGIN
+    SELECT * FROM SinhVien ORDER BY tensinhvien DESC
+END
+
+
+--- sáp xếp tăng dần theo tên sinh viên
+
+CREATE PROCEDURE SapXepSinhVienTangDanTheoTen
+AS
+BEGIN
+    SELECT * FROM SinhVien ORDER BY tensinhvien ASC
+END
+
+
+--- sắp xếp sinh viên theo số phòng
+
+CREATE PROCEDURE SapXepSinhVienTangDanTheoMaPhong
+AS
+BEGIN
+    SELECT * FROM SinhVien ORDER BY idphong ASC
+END
 
 --- xem thông tin thuê phòng
 

@@ -35,7 +35,8 @@ namespace QuanLyKyTucXa.DataTransferObjects
             lydo = Console.ReadLine();
 
             Console.Write("Ngay tra (MM/dd/yyyy): ");
-            ngaytra = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
+            ngaytra = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
         }
     }
 }

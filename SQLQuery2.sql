@@ -81,6 +81,7 @@ CREATE TABLE TraPhong (
 );
 
 
+
 INSERT INTO NguoiDung (hoten, sodienthoai, diachi, chucvu, matkhau, tendangnhap)
 VALUES ('Vo Van Chinh', '0123456789', '123 qt', 'Admin', '123', 'adminn');
 

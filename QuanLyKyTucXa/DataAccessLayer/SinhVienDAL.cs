@@ -112,10 +112,10 @@ internal class SinhVienDAL
     public Tuple<int, DateTime, string> LayThongTinPhongVaNgayThue(string idsv)
     {
         int idphong = 0;
-        DateTime ngaynhaphoc = DateTime.MinValue;
+        DateTime ngayvao = DateTime.MinValue;
         string gioitinh = string.Empty;
         connection.Open();
-        string query = "SELECT idphong,ngaynhaphoc,gioitinh FROM SinhVien WHERE id = @id";
+        string query = "SELECT idphong,ngayvao,gioitinh FROM SinhVien WHERE id = @id";
         using (SqlCommand command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@id", idsv);
@@ -124,13 +124,13 @@ internal class SinhVienDAL
                 if (reader.Read())
                 {
                     idphong = (int)reader["idphong"];
-                    ngaynhaphoc = (DateTime)reader["ngaynhaphoc"];
+                    ngayvao = (DateTime)reader["ngayvao"];
                     gioitinh = reader["gioitinh"].ToString();
                 }
             }
         }
         connection.Close();
-        return Tuple.Create(idphong, ngaynhaphoc, gioitinh);
+        return Tuple.Create(idphong, ngayvao, gioitinh);
     }
 
     public void CapNhatPhongChoSinhVien(string id, int idphong)
@@ -170,4 +170,108 @@ internal class SinhVienDAL
         return sinhVienlist;
     }
 
+
+    public List<SinhVien> SapXepSinhVienGiamDanTheoTen()
+    {
+        List<SinhVien> sinhviens = new List<SinhVien>();
+        connection.Open();
+        using (SqlCommand command = new SqlCommand("SapXepSinhVienGiamDanTheoTen", connection))
+        {
+            command.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    SinhVien student = new SinhVien
+                    {
+                        id = reader["id"].ToString(),
+                        tensinhvien = reader["tensinhvien"].ToString(),
+                        khoahoc = reader["khoahoc"].ToString(),
+                        nganhhoc = reader["nganhhoc"].ToString(),
+                        email = reader["email"].ToString(),
+                        sodienthoai = reader["sodienthoai"].ToString(),
+                        idphong = (int)reader["idphong"],
+                        gioitinh = reader["gioitinh"].ToString(),
+                        quequan = reader["quequan"].ToString(),
+                        trang_thai = reader["trang_thai"].ToString(),
+                        solanvipham = (int)reader["solanvipham"],
+                        ngayvao = (DateTime)reader["ngayvao"],
+                        ngaysinh = (DateTime)reader["ngaysinh"]
+                    };
+                    sinhviens.Add(student);
+                }
+            }
+        }
+        connection.Close();
+        return sinhviens;
+    }
+    public List<SinhVien> SapXepSinhVienTangDanTheoTen()
+    {
+        List<SinhVien> sinhviens = new List<SinhVien>();
+        connection.Open();
+        using (SqlCommand command = new SqlCommand("SapXepSinhVienTangDanTheoTen", connection))
+        {
+            command.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    SinhVien student = new SinhVien
+                    {
+                        id = reader["id"].ToString(),
+                        tensinhvien = reader["tensinhvien"].ToString(),
+                        khoahoc = reader["khoahoc"].ToString(),
+                        nganhhoc = reader["nganhhoc"].ToString(),
+                        email = reader["email"].ToString(),
+                        sodienthoai = reader["sodienthoai"].ToString(),
+                        idphong = (int)reader["idphong"],
+                        gioitinh = reader["gioitinh"].ToString(),
+                        quequan = reader["quequan"].ToString(),
+                        trang_thai = reader["trang_thai"].ToString(),
+                        solanvipham = (int)reader["solanvipham"],
+                        ngayvao = (DateTime)reader["ngayvao"],
+                        ngaysinh = (DateTime)reader["ngaysinh"]
+                    };
+                    sinhviens.Add(student);
+                }
+            }
+        }
+        connection.Close();
+        return sinhviens;
+    }
+
+    public List<SinhVien> SapXepSinhVienTangDanTheoMaPhong()
+    {
+        List<SinhVien> sinhviens = new List<SinhVien>();
+        connection.Open();
+        using (SqlCommand command = new SqlCommand("SapXepSinhVienTangDanTheoMaPhong", connection))
+        {
+            command.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    SinhVien student = new SinhVien
+                    {
+                        id = reader["id"].ToString(),
+                        tensinhvien = reader["tensinhvien"].ToString(),
+                        khoahoc = reader["khoahoc"].ToString(),
+                        nganhhoc = reader["nganhhoc"].ToString(),
+                        email = reader["email"].ToString(),
+                        sodienthoai = reader["sodienthoai"].ToString(),
+                        idphong = (int)reader["idphong"],
+                        gioitinh = reader["gioitinh"].ToString(),
+                        quequan = reader["quequan"].ToString(),
+                        trang_thai = reader["trang_thai"].ToString(),
+                        solanvipham = (int)reader["solanvipham"],
+                        ngayvao = (DateTime)reader["ngayvao"],
+                        ngaysinh = (DateTime)reader["ngaysinh"]
+                    };
+                    sinhviens.Add(student);
+                }
+            }
+        }
+        connection.Close();
+        return sinhviens;
+    }
 }

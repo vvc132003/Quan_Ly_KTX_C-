@@ -74,11 +74,16 @@ namespace ketnoicsdllan1.PresentationLayer
                                     switch (luachonPhong)
                                     {
                                         case 1:
-                                            Phong phong = new Phong();
-                                            phong.NhapThongTinPhong();
-                                            phong.songuoio = 0;
-                                            phongBLL.ThemPhong(phong);
-                                            Console.WriteLine("Phong da duoc them vao CSDL.");
+                                            Console.Write("Nhap so luong phong ban muon them:");
+                                            int soLuongPhong = int.Parse(Console.ReadLine());
+                                            for(int i=0; i < soLuongPhong;i++)
+                                            {
+                                                Phong phong = new Phong();
+                                                phong.NhapThongTinPhong();
+                                                phong.songuoio = 0;
+                                                phongBLL.ThemPhong(phong);
+                                                Console.WriteLine("Phong da duoc them vao CSDL.");
+                                            }
                                             break;
                                         case 2:
                                             phongBLL.GetAllPhong();
@@ -166,8 +171,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                             break;
                                         case 4:
                                             // Sắp xếp danh sách sinh viên
-                                            /*menusapxepsv();
-                                            */
+                                            menu.menuSapXepSV();
                                             int sapXepOption;
                                             while (true)
                                             {
@@ -188,10 +192,20 @@ namespace ketnoicsdllan1.PresentationLayer
                                             switch (sapXepOption)
                                             {
                                                 case 1:
-                                                    // Sắp xếp theo tên
+                                                    Console.WriteLine("Ban chon tang(Z) hoac giam(Y)");
+                                                    string chonyz = Console.ReadLine();
+                                                    if(chonyz == "y") {
+                                                        Console.WriteLine("Danh sach sinh vien sau khi sap xep là:");
+                                                        studentBLL.SapXepSinhVienGiamDanTheoTen();
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Danh sach sinh vien sau khi sap xep là:");
+                                                        studentBLL.SapXepSinhVienTangDanTheoTen();
+                                                    }
                                                     break;
                                                 case 2:
-                                                    // Sắp xếp tăng dần theo số phòng
+                                                    studentBLL.SapXepSinhVienTangDanTheoMaPhong();
                                                     break;
                                                 case 0:
                                                     Console.WriteLine("off");
@@ -227,31 +241,36 @@ namespace ketnoicsdllan1.PresentationLayer
                                     switch (luachonThuePhong)
                                     {
                                         case 1:
-                                            Console.Write("Ma phong muon thue: ");
-                                            int id = int.Parse(Console.ReadLine());
-                                            Phong phong = phongBLL.LayPhongTheoMa(id);
-                                            SinhVien sinhVien = new SinhVien();
-                                            sinhVien.NhapThongTinSinhVien();
-                                            if (phong != null && phong.songuoio < phong.sogiuong)
+                                            Console.Write("Nhap so luong sinh vien muon thue phong:");
+                                            int soLuongSVThuePhong = int.Parse(Console.ReadLine());
+                                            for (int i=0;i<soLuongSVThuePhong;i++)
                                             {
-                                                if(phong.loaiphong == sinhVien.gioitinh)
+                                                Console.Write("Ma phong muon thue: ");
+                                                int id = int.Parse(Console.ReadLine());
+                                                Phong phong = phongBLL.LayPhongTheoMa(id);
+                                                SinhVien sinhVien = new SinhVien();
+                                                sinhVien.NhapThongTinSinhVien();
+                                                if (phong != null && phong.songuoio < phong.sogiuong)
                                                 {
-                                                    sinhVien.idphong = id;
-                                                    sinhVien.trang_thai = "Đã thuê";
-                                                    studentBLL.ThemSinhVien(sinhVien);
-                                                    phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
-                                                    int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                                    thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngayvao);
-                                                    Console.WriteLine("Thue phong thanh cong!");
+                                                    if(phong.loaiphong == sinhVien.gioitinh)
+                                                    {
+                                                        sinhVien.idphong = id;
+                                                        sinhVien.trang_thai = "Đã thuê";
+                                                        studentBLL.ThemSinhVien(sinhVien);
+                                                        phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
+                                                        int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                                        thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngayvao);
+                                                        Console.WriteLine("Thue phong thanh cong!");
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Loai phong do la danh cho" + phong.loaiphong + "chu khong phai la " + sinhVien.gioitinh);
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("Loai phong do la danh cho" + phong.loaiphong + "chu khong phai la " + sinhVien.gioitinh);
+                                                    Console.WriteLine("Phong khong ton tai hoac da day.");
                                                 }
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("Phong khong ton tai hoac da day.");
                                             }
                                             break;
                                         case 2:
@@ -271,69 +290,79 @@ namespace ketnoicsdllan1.PresentationLayer
                                 break;
                             case 5:
                                 // Chuyển phòng
-                                Console.WriteLine("Nhap thong tin chuyen phong:");
-                                Console.Write("Nhap ma sinh vien muon chuyen: ");
-                                string masv = Console.ReadLine();
-                                Console.Write("Nhap ID Phong Moi: ");
-                                int idphongmoi = int.Parse(Console.ReadLine());
-                                Phong phongmoi = phongBLL.LayPhongTheoMa(idphongmoi);
-                                ChuyenPhong chuyenPhong = new ChuyenPhong();
-                                chuyenPhong.NhapThongTinChuyenPhong();
-                                if (phongmoi != null && phongmoi.songuoio < phongmoi.sogiuong)
+                                Console.Write("Nhap so luong sinh vien muon chuyen phong:");
+                                int soLuongSVChuyenPhong = int.Parse(Console.ReadLine());
+                                for(int i=0;i< soLuongSVChuyenPhong;i++)
                                 {
-                                    Tuple<int, DateTime,string> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
-                                    int idphongcu = st.Item1;  
-                                    DateTime ngaynhaphoc = st.Item2;
-                                    string gioiTinh = st.Item3;
-                                    if(phongmoi.loaiphong == gioiTinh)
+                                    Console.WriteLine("Nhap thong tin chuyen phong:");
+                                    Console.Write("Nhap ma sinh vien muon chuyen: ");
+                                    string masv = Console.ReadLine();
+                                    Console.Write("Nhap ID Phong Moi: ");
+                                    int idphongmoi = int.Parse(Console.ReadLine());
+                                    Phong phongmoi = phongBLL.LayPhongTheoMa(idphongmoi);
+                                    ChuyenPhong chuyenPhong = new ChuyenPhong();
+                                    chuyenPhong.NhapThongTinChuyenPhong();
+                                    if (phongmoi != null && phongmoi.songuoio < phongmoi.sogiuong)
                                     {
-                                        if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month > ngaynhaphoc.Month 
-                                            || (chuyenPhong.ngaychuyen.Month == ngaynhaphoc.Month 
-                                            && chuyenPhong.ngaychuyen.Day > ngaynhaphoc.Day)))
+                                        Tuple<int, DateTime,string> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
+                                        int idphongcu = st.Item1;  
+                                        DateTime ngaynhaphoc = st.Item2;
+                                        string gioiTinh = st.Item3;
+                                        if(phongmoi.loaiphong == gioiTinh)
                                         {
-                                            Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
-                                            phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
-                                            phongBLL.CapNhatSoNguoiO(phongupdatecu, phongupdatecu.songuoio - 1);
-                                            int idnguoidung2 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                            chuyenPhonhBLL.ChuyenPhong(chuyenPhong, idphongcu, idphongmoi, masv, idnguoidung2);
-                                            studentBLL.CapNhatPhongChoSinhVien(masv, idphongmoi);
-                                            Console.WriteLine("Chuyen phong thanh cong.");  
+                                            if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month > ngaynhaphoc.Month 
+                                                || (chuyenPhong.ngaychuyen.Month == ngaynhaphoc.Month 
+                                                && chuyenPhong.ngaychuyen.Day > ngaynhaphoc.Day)))
+                                            {
+                                                Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
+                                                phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
+                                                phongBLL.CapNhatSoNguoiO(phongupdatecu, phongupdatecu.songuoio - 1);
+                                                int idnguoidung2 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                                chuyenPhonhBLL.ChuyenPhong(chuyenPhong, idphongcu, idphongmoi, masv, idnguoidung2);
+                                                studentBLL.CapNhatPhongChoSinhVien(masv, idphongmoi);
+                                                Console.WriteLine("Chuyen phong thanh cong.");  
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Ngay chuyen khong duojc nho hon ngay nhap hoc!.");
+                                            }
                                         }
                                         else
                                         {
-                                            Console.WriteLine("Ngay chuyen khong duojc nho hon ngay nhap hoc!.");
+                                            Console.WriteLine("Loai phong do la danh cho" + phongmoi.loaiphong + "chu khong phai la " + gioiTinh);
                                         }
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Loai phong do la danh cho" + phongmoi.loaiphong + "chu khong phai la " + gioiTinh);
+                                        Console.WriteLine("Phong khong ton tai hoac da day.");
                                     }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Phong khong ton tai hoac da day.");
                                 }
                                 break;
                             case 6:
                                 // Trả phòng
-                                SinhVien sinhvien = new SinhVien();
-                                Console.Write("Nhap ma sinh vien muon tra: ");
-                                string masvtraphong = Console.ReadLine();
-                                studentBLL.UpdateTrangThaiStudent(sinhvien, masvtraphong);
-                                TraPhong traphong = new TraPhong();
-                                Tuple<int, DateTime,string> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
-                                int idphong = sts.Item1;
-                                int idnguoidung3 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                if (idphong !=0)
-                                {
-                                    traPhongBLL.TraPhong(traphong, idphong, masvtraphong, idnguoidung3);
-                                    Phong phongupdates = phongBLL.LayPhongTheoMa(idphong);
-                                    phongBLL.CapNhatSoNguoiO(phongupdates, phongupdates.songuoio - 1);
-                                    Console.WriteLine("Tra phong thanh cong!");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Sinh vien chua duoc phan phong hoac phong khong ton tai.");
+                                Console.Write("Nhap so luong sinh vien muon tra phong:");
+                                int soLuongSVTraPhong = int.Parse(Console.ReadLine());
+                                for (int i = 0;i < soLuongSVTraPhong; i ++){
+                                    SinhVien sinhvien = new SinhVien();
+                                    Console.Write("Nhap ma sinh vien muon tra: ");
+                                    string masvtraphong = Console.ReadLine();
+                                    TraPhong traphong = new TraPhong();
+                                    Tuple<int, DateTime,string> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
+                                    int idphong = sts.Item1;
+                                    int idnguoidung3 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                    if (idphong !=0)
+                                    {
+                                        sinhvien.trang_thai = "Đã trả";
+                                        studentBLL.UpdateTrangThaiStudent(sinhvien, masvtraphong);
+                                        traPhongBLL.TraPhong(traphong, idphong, masvtraphong, idnguoidung3);
+                                        Phong phongupdates = phongBLL.LayPhongTheoMa(idphong);
+                                        phongBLL.CapNhatSoNguoiO(phongupdates, phongupdates.songuoio - 1);
+                                        Console.WriteLine("Tra phong thanh cong!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Sinh vien chua duoc phan phong hoac phong khong ton tai.");
+                                    }
                                 }
                                 break;
                             case 7:
@@ -348,6 +377,38 @@ namespace ketnoicsdllan1.PresentationLayer
                                     Console.WriteLine("Chua co nguoi dang nhap.");
                                 }
                                 tendangnhap = nguoiDungBLL.CheckThongTinDangNhap();
+                                break;
+                            case 8:
+                                // Sinh viên muốn thuê lại
+                                Console.WriteLine("Nhap so luong sinh vien muon thue lai:");
+                                int soluongsvthuelai = int.Parse(Console.ReadLine());
+                                for(int i=0;i<soluongsvthuelai;i++)
+                                {
+                                    SinhVien sinhvienthuelai = new SinhVien();
+                                    Console.WriteLine("Nhap ma sinh vien muon thue lai:");
+                                    sinhvienthuelai.id = Console.ReadLine();
+                                    Console.WriteLine("Nhap id phong ma sinh vien muon thue lai:");
+                                    sinhvienthuelai.idphong = int.Parse(Console.ReadLine());
+                                    Console.Write("Ngay vao (MM/dd/yyyy): ");
+                                    sinhvienthuelai.ngayvao = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                                    Tuple<int, DateTime, string> thuelaiphong = studentBLL.LayThongTinPhongVaNgayThue(sinhvienthuelai.id);
+                                    string gioiTinhthuelai = thuelaiphong.Item3;
+                                    Phong phongthuelai = phongBLL.LayPhongTheoMa(sinhvienthuelai.idphong);
+                                    if(phongthuelai != null && phongthuelai.loaiphong == gioiTinhthuelai && phongthuelai.sogiuong > phongthuelai.songuoio)
+                                    {
+                                        sinhvienthuelai.trang_thai = "Đã thuê";
+                                        studentBLL.UpdateTrangThaiStudent(sinhvienthuelai, sinhvienthuelai.id);
+                                        studentBLL.CapNhatPhongChoSinhVien(sinhvienthuelai.id, sinhvienthuelai.idphong);
+                                        phongBLL.CapNhatSoNguoiO(phongthuelai, phongthuelai.songuoio + 1);
+                                        int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                        thuePhongBll.ThuePhong(sinhvienthuelai.id,sinhvienthuelai.idphong,idnguoidung,sinhvienthuelai.ngayvao);
+                                        Console.WriteLine("Sinh vien: " + sinhvienthuelai.id + " thue lai phong thanh cong!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Khong the thue lai phong!");
+                                    }
+                                }
                                 break;
                         }
                     } while (chon != 0);

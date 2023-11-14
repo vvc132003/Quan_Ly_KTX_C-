@@ -19,7 +19,6 @@ namespace QuanLyKyTucXa.BusinessLogicLayer
             traPhong.idphong = idphong;
             traPhong.idsinhvien = masv;
             traPhongDAL.TraPhong(traPhong, idphong);
-            Console.WriteLine("Thue phong thanh cong!");
         }
 
         /*public void GetAllThuePhongs()

@@ -18,6 +18,7 @@ namespace QuanLyKyTucXa.PresentationLayer
             Console.WriteLine("|*5. Quan ly chuyen phong                       |");
             Console.WriteLine("|*6. Quan ly tra phong                          |");
             Console.WriteLine("|*7. Dang xuat                                  |");
+            Console.WriteLine("|*8. Sinh vien muon thue lai                    |");
             Console.WriteLine("|*0. Ket thuc                                   |");
             Console.WriteLine("-------------------------------------------------");
             Console.WriteLine("***Moi ban chon***:");
@@ -39,6 +40,17 @@ namespace QuanLyKyTucXa.PresentationLayer
             Console.WriteLine("|*1. Hien thi sinh vien                         |");
             Console.WriteLine("|*2. Cap nhat sinh vien                         |");
             Console.WriteLine("|*3. Tim kiem sinh vien  	                   |");
+            Console.WriteLine("|*4. Sap xep  sinh vien  	                   |");
+            Console.WriteLine("|*0. Quay lại                                   |");
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine("***Moi ban chon***:");
+        }
+        public void menuSapXepSV()
+        {
+            Console.WriteLine("-----------------Sap xep sinh vien---------------");
+            Console.WriteLine("|*1. Sap xep theo ten                           |");
+            Console.WriteLine("|*2. Sap xep theo ma phong                      |");
+            Console.WriteLine("|*3. Sap xep theo ngay vao                      |");
             Console.WriteLine("|*0. Quay lại                                   |");
             Console.WriteLine("-------------------------------------------------");
             Console.WriteLine("***Moi ban chon***:");
