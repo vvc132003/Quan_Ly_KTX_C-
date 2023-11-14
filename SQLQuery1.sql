@@ -1,4 +1,4 @@
-﻿--- check thông tin đang nhập
+--- check thông tin đang nhập
 CREATE PROCEDURE CheckThongTinDangNhap
     @tendangnhap NVARCHAR(255),
     @matkhau NVARCHAR(255)
