@@ -108,6 +108,19 @@ CREATE TABLE ThueDichVu (
 );
 
 
+CREATE TABLE KyLuat (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    loaivipham VARCHAR(255),
+    mota TEXT,
+    phuongphapxuphat VARCHAR(255),
+    idnguoidung INT,
+    idsinhvien VARCHAR(255),
+    ngayvipham DATE,
+    FOREIGN KEY (idnguoidung) REFERENCES NguoiDung(id),
+    FOREIGN KEY (idsinhvien) REFERENCES SinhVien(id)
+);
+
+
 INSERT INTO NguoiDung (hoten, sodienthoai, diachi, chucvu, matkhau, tendangnhap)
 VALUES ('Vo Van Chinh', '0123456789', '123 qt', 'Admin', '123', 'adminn');
 

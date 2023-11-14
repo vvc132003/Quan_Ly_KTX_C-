@@ -23,7 +23,7 @@ internal class SinhVienDAL
                 {
                     while (reader.Read())
                     {
-                        SinhVien student = new SinhVien
+                        SinhVien student = new SinhVien()
                         {
                             id = reader["id"].ToString(),
                             tensinhvien = reader["tensinhvien"].ToString(),
@@ -47,6 +47,20 @@ internal class SinhVienDAL
         return students;
     }
 
+    public bool KiemTraTonTaiMaSinhVien(string masv)
+    {
+        bool tonTai = false;
+        connection.Open();
+        string query = "SELECT COUNT(*) FROM SinhVien WHERE id = @id";
+        using (SqlCommand command = new SqlCommand(query, connection))
+        {
+            command.Parameters.AddWithValue("@id", masv);
+            int count = (int)command.ExecuteScalar();
+            tonTai = (count > 0);
+        }
+        connection.Close();
+        return tonTai;
+    }
 
     public void ThemSinhVien(SinhVien sinhVien)
     {
@@ -109,13 +123,14 @@ internal class SinhVienDAL
             connection.Close();
     }
 
-    public Tuple<int, DateTime, string> LayThongTinPhongVaNgayThue(string idsv)
+    public Tuple<int, DateTime, string,int> LayThongTinPhongVaNgayThue(string idsv)
     {
         int idphong = 0;
+        int solanvipham = 0;
         DateTime ngayvao = DateTime.MinValue;
         string gioitinh = string.Empty;
         connection.Open();
-        string query = "SELECT idphong,ngayvao,gioitinh FROM SinhVien WHERE id = @id";
+        string query = "SELECT idphong,ngayvao,gioitinh,solanvipham FROM SinhVien WHERE id = @id";
         using (SqlCommand command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@id", idsv);
@@ -126,22 +141,37 @@ internal class SinhVienDAL
                     idphong = (int)reader["idphong"];
                     ngayvao = (DateTime)reader["ngayvao"];
                     gioitinh = reader["gioitinh"].ToString();
+                    solanvipham = (int)reader["solanvipham"];
                 }
             }
         }
         connection.Close();
-        return Tuple.Create(idphong, ngayvao, gioitinh);
+        return Tuple.Create(idphong, ngayvao, gioitinh, solanvipham);
     }
-
+        
     public void CapNhatPhongChoSinhVien(string id, int idphong)
     {
-            connection.Open();
-            string updateQuery = "UPDATE SinhVien SET idphong = @idphong WHERE id = @id";
-            using (SqlCommand command = new SqlCommand(updateQuery, connection))
-            {
-                command.Parameters.AddWithValue("@idphong", idphong);
-                command.Parameters.AddWithValue("@id", id);
-                command.ExecuteNonQuery();
+        connection.Open();
+        string updateQuery = "UPDATE SinhVien SET idphong = @idphong WHERE id = @id";
+        using (SqlCommand command = new SqlCommand(updateQuery, connection))
+        {
+            command.Parameters.AddWithValue("@idphong", idphong);
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+            connection.Close();
+
+        }
+    }
+
+    public void CapNhatSoLanViPhamChoSinhVien(string id, int solanvipham)
+    {
+        connection.Open();
+        string updateQuery = "UPDATE SinhVien SET solanvipham  = @solanvipham  WHERE id = @id";
+        using (SqlCommand command = new SqlCommand(updateQuery, connection))
+        {
+            command.Parameters.AddWithValue("@solanvipham ", solanvipham);
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
             connection.Close();
         }
     }

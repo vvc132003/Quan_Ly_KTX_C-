@@ -8,6 +8,9 @@ using QuanLyKyTucXa.BusinessLogicLayer;
 using QuanLyKyTucXa.DataAccessLayer;
 using QuanLyKyTucXa.DataTransferObjects;
 using QuanLyKyTucXa.PresentationLayer;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ketnoicsdllan1.PresentationLayer
 {
@@ -19,6 +22,9 @@ namespace ketnoicsdllan1.PresentationLayer
         private static TraPhongBLL traPhongBLL = new TraPhongBLL();
         private static ChuyenPhongBLL chuyenPhonhBLL = new ChuyenPhongBLL();
         private static NguoiDungBLL nguoiDungBLL = new NguoiDungBLL();
+        private static DichVuBLL dichVuBLL = new DichVuBLL();
+        private static ThueDichVuBLL thueDichVuBLL = new ThueDichVuBLL();
+        private static KyLuatBLL kyLuatBLL = new KyLuatBLL();
         private static Menu menu = new Menu();
         static void Main(string[] args)
         {
@@ -37,7 +43,7 @@ namespace ketnoicsdllan1.PresentationLayer
                             try
                             {
                                 chon = int.Parse(Console.ReadLine());
-                                if (chon >= 0 && chon <= 9)
+                                if (chon >= 0 && chon <= 12)
                                     break;
                                 else
                                     Console.WriteLine("Ban da chon sai vui long chon lai!!");
@@ -133,7 +139,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                         try
                                         {
                                             luachonSinhVien = int.Parse(Console.ReadLine());
-                                            if (luachonSinhVien >= 0 && luachonSinhVien <= 4)
+                                            if (luachonSinhVien >= 0 && luachonSinhVien <= 6)
                                                 break;
                                             else
                                                 Console.WriteLine("Bạn đã chọn sai, vui lòng chọn lại!!!");
@@ -210,6 +216,55 @@ namespace ketnoicsdllan1.PresentationLayer
                                                 case 0:
                                                     Console.WriteLine("off");
                                                     break;
+                                            }
+                                            break;
+                                        case 5:
+                                            /// kỷ luật sinh viên
+                                            Console.Write("Nhap id sinh vien ma ban muon ky luat: ");
+                                            string idsinhvienkyluat = Console.ReadLine();
+                                            if(studentBLL.KiemTraTonTaiMaSinhVien(idsinhvienkyluat))
+                                            {
+                                                int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                                Tuple<int, DateTime, string, int> sts = studentBLL.LayThongTinPhongVaNgayThue(idsinhvienkyluat);
+                                                int solanvipham = sts.Item4;
+                                                KyLuat kyLuat = new KyLuat();
+                                                Console.WriteLine("Chon Loai Vi Pham:");
+                                                Console.WriteLine("1. Ngu day muon");
+                                                Console.WriteLine("2. Ve sinh");
+                                                Console.WriteLine("3. Gio giac");
+                                                Console.WriteLine("4. Danh nhau");
+                                                int luaChonloaivipham;
+                                                do
+                                                {
+                                                    Console.Write("Lua chon cua ban: ");
+                                                    if (!int.TryParse(Console.ReadLine(), out luaChonloaivipham) || luaChonloaivipham < 1 || luaChonloaivipham > 3)
+                                                    {
+                                                        Console.WriteLine("Vui long nhap lua chon hop le!");
+                                                    }
+                                                } while (luaChonloaivipham < 1 || luaChonloaivipham > 5);
+                                                switch (luaChonloaivipham)
+                                                {
+                                                    case 1:
+                                                        kyLuat.loaivipham = "Ngu day muon";
+                                                        break;
+                                                    case 2:
+                                                        kyLuat.loaivipham = "Ve sinh";
+                                                        break;
+                                                    case 3:
+                                                        kyLuat.loaivipham = "Gio giac";
+                                                        break;
+                                                    case 4:
+                                                        kyLuat.loaivipham = "Danh nhau";
+                                                        break;
+                                                }
+                                                studentBLL.CapNhatSoLanViPhamChoSinhVien(idsinhvienkyluat, solanvipham + 1);
+                                                kyLuat.NhapThongTinKyLuat();
+                                                kyLuatBLL.ThemKyLuat(kyLuat, idnguoidung, idsinhvienkyluat);
+                                                Console.WriteLine("Ky luat sinh vien thanh cong!");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Sinh vien khong ton tai trong CSDL!");
                                             }
                                             break;
                                     }
@@ -304,7 +359,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                     chuyenPhong.NhapThongTinChuyenPhong();
                                     if (phongmoi != null && phongmoi.songuoio < phongmoi.sogiuong)
                                     {
-                                        Tuple<int, DateTime,string> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
+                                        Tuple<int, DateTime,string,int> st = studentBLL.LayThongTinPhongVaNgayThue(masv);
                                         int idphongcu = st.Item1;  
                                         DateTime ngaynhaphoc = st.Item2;
                                         string gioiTinh = st.Item3;
@@ -347,7 +402,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                     Console.Write("Nhap ma sinh vien muon tra: ");
                                     string masvtraphong = Console.ReadLine();
                                     TraPhong traphong = new TraPhong();
-                                    Tuple<int, DateTime,string> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
+                                    Tuple<int, DateTime,string,int> sts = studentBLL.LayThongTinPhongVaNgayThue(masvtraphong);
                                     int idphong = sts.Item1;
                                     int idnguoidung3 = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
                                     if (idphong !=0)
@@ -391,7 +446,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                     sinhvienthuelai.idphong = int.Parse(Console.ReadLine());
                                     Console.Write("Ngay vao (MM/dd/yyyy): ");
                                     sinhvienthuelai.ngayvao = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                    Tuple<int, DateTime, string> thuelaiphong = studentBLL.LayThongTinPhongVaNgayThue(sinhvienthuelai.id);
+                                    Tuple<int, DateTime, string,int> thuelaiphong = studentBLL.LayThongTinPhongVaNgayThue(sinhvienthuelai.id);
                                     string gioiTinhthuelai = thuelaiphong.Item3;
                                     Phong phongthuelai = phongBLL.LayPhongTheoMa(sinhvienthuelai.idphong);
                                     if(phongthuelai != null && phongthuelai.loaiphong == gioiTinhthuelai && phongthuelai.sogiuong > phongthuelai.songuoio)
@@ -411,15 +466,109 @@ namespace ketnoicsdllan1.PresentationLayer
                                 }
                                 break;
                             case 9:
-                                Console.WriteLine("Nhap so luong dich vu thue vao");
-                                int soluongdichvuthemvao = int.Parse(Console.ReadLine());
-                                for (int i=0;i< soluongdichvuthemvao;i++)
+                                int dichvu;
+                                do
+                                {
+                                    menu.menuDichVu();
+                                    while (true)
+                                    {
+                                        try
+                                        {
+                                            dichvu = int.Parse(Console.ReadLine());
+                                            if (dichvu >= 0 && dichvu <= 5)
+                                                break;
+                                            else
+                                                Console.WriteLine("Ban da chon sai vui long chon lai!!!");
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Console.WriteLine("Ban da chon sai vui long chon lai!!!");
+                                        }
+                                    }
+                                    switch (dichvu)
+                                    {
+                                        case 1:
+                                            Console.Write("Nhap so luong dich vu ban muon them:");
+                                            int soLuongDV = int.Parse(Console.ReadLine());
+                                            for (int i = 0; i < soLuongDV; i++)
+                                            {
+                                                DichVu dichVu = new DichVu();
+                                                dichVu.trangthai = "Còn sử dụng";
+                                                dichVu.NhapThongTinDichVu();
+                                                dichVuBLL.ThemDichVu(dichVu);
+                                                Console.WriteLine("Them dich vu thanh cong!");
+                                            }
+                                            break;
+                                        case 2:
+                                            dichVuBLL.GetAllDichVu();
+                                            break;
+                                        case 3:
+                                            Console.Write("Nhap id phong ban muon cap nhat: ");
+                                            DichVu dichVucapnhat = new DichVu();
+                                            if (int.TryParse(Console.ReadLine(), out int id))
+                                            {
+                                                dichVucapnhat.id = id;
+                                                dichVucapnhat.NhapThongTinDichVu();
+                                                dichVuBLL.SuaDichVu(dichVucapnhat);
+                                                Console.WriteLine("Dich vu da duoc cap nhat vao CSDL.");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("loi.");
+                                            }
+                                            break;
+                                        case 4:
+                                            Console.Write("Nhap id dich vu ma ban muon xoa: ");
+                                            if (int.TryParse(Console.ReadLine(), out int iddv))
+                                            {
+                                                dichVuBLL.XoaDichVu(iddv);
+                                                Console.WriteLine("Dich vu da duoc xoa khoi CSDL.");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("loi.");
+                                            }
+                                            break;
+                                        case 0:
+                                            Console.WriteLine("off");
+                                            break;
+                                    }
+                                } while (dichvu != 0);
+                                break;
+                            case 10:
+                                Console.WriteLine("Nhap so luong thue dich vu:");
+                                int soluongdichvuthue = int.Parse(Console.ReadLine());
+                                for (int i=0;i< soluongdichvuthue; i++)
                                 {
                                     SinhVien sinhvienthuedichvu = new SinhVien();
                                     Console.WriteLine("Nhap ma sinh vien muon thue dich vu");
                                     sinhvienthuedichvu.id = Console.ReadLine();
-                                    int idthuephong = thuePhongBll.LayMaThuePhongTheoIDSV(sinhvienthuedichvu.id);
+                                    if(studentBLL.KiemTraTonTaiMaSinhVien(sinhvienthuedichvu.id))
+                                    {
+                                        Console.WriteLine("Nhap ten dich vu ban muon thue");
+                                        string tendichvu = Console.ReadLine();
+                                        int idthuephong = thuePhongBll.LayMaThuePhongTheoIDSV(sinhvienthuedichvu.id);
+                                        DichVu  dichVu = dichVuBLL.LayDichVuTheoTen(tendichvu);
+                                        if(idthuephong != 0 && tendichvu != null)
+                                        {
+                                            ThueDichVu thueDichVu = new ThueDichVu();
+                                            thueDichVu.NhapThongTinThueDichVu();
+                                            float thanhTien = dichVu.giatien * thueDichVu.soluongthue;
+                                            int idNguoiDung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
+                                            dichVuBLL.CapNhatSoLuongConChoDV(dichVu.id, dichVu.soluongcon - thueDichVu.soluongthue);
+                                            thueDichVuBLL.ThemThueDichVu(thueDichVu, idNguoiDung, idthuephong, dichVu.id, thanhTien, sinhvienthuedichvu.id);
+                                            Console.WriteLine("Thue dich vu thanh cong!");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Sinh vien khong ton tai trong CSDL!");
+                                    }
                                 }
+                                break;
+                            case 11:
+                                studentBLL.ExportAllDichVuToExcel();
+                                Console.WriteLine("Xuat sinh vien ra excel thanh cong!");
                                 break;
                         }
                     } while (chon != 0);
