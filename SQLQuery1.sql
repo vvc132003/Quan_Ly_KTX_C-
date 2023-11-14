@@ -1,4 +1,4 @@
-﻿--- check thông tin đang nhập
+--- check thông tin đang nhập
 CREATE PROCEDURE CheckThongTinDangNhap
     @tendangnhap NVARCHAR(255),
     @matkhau NVARCHAR(255)
@@ -6,6 +6,7 @@ AS
 BEGIN
     SELECT * FROM NguoiDung WHERE tendangnhap = @tendangnhap AND matkhau = @matkhau
 END
+
 
 ---- lấy id người dùng
 
@@ -121,12 +122,12 @@ CREATE PROCEDURE ThemSinhVienS
     @quequan VARCHAR(255),
     @trang_thai VARCHAR(20),
     @solanvipham INT,
-    @ngaynhaphoc DATE,
+    @ngayvao DATE,
     @ngaysinh DATE
 AS
 BEGIN
-	INSERT INTO SinhVien (id,tensinhvien, khoahoc, nganhhoc, email, sodienthoai, idphong, gioitinh, quequan,trang_thai,solanvipham, ngaynhaphoc, ngaysinh) 
-    VALUES (@id,@tensinhvien, @khoahoc, @nganhhoc, @email, @sodienthoai, @idphong, @gioitinh, @quequan,@trang_thai,@solanvipham, @ngaynhaphoc, @ngaysinh)
+	INSERT INTO SinhVien (id,tensinhvien, khoahoc, nganhhoc, email, sodienthoai, idphong, gioitinh, quequan,trang_thai,solanvipham, ngayvao, ngaysinh) 
+    VALUES (@id,@tensinhvien, @khoahoc, @nganhhoc, @email, @sodienthoai, @idphong, @gioitinh, @quequan,@trang_thai,@solanvipham, @ngayvao, @ngaysinh)
 END
 
 --- cập nhật sinh viên
@@ -142,13 +143,13 @@ CREATE PROCEDURE UpdateSinhViens
     @quequan VARCHAR(255),
     @trang_thai VARCHAR(20),
     @solanvipham INT,
-    @ngaynhaphoc DATE,
+    @ngayvao DATE,
     @ngaysinh DATE
 AS
 BEGIN
     UPDATE SinhVien SET tensinhvien = @tensinhvien, khoahoc = @khoahoc, nganhhoc = @nganhhoc, 
     email = @email, sodienthoai = @sodienthoai, gioitinh = @gioitinh, quequan = @quequan , 
-    ngaynhaphoc = @ngaynhaphoc, ngaysinh = @ngaysinh WHERE id = @id
+    ngayvao = @ngayvao, ngaysinh = @ngaysinh WHERE id = @id
 END
 
 -- cập nhật trạng thái của sinh viên 
