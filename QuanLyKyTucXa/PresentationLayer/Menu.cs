@@ -47,7 +47,7 @@ namespace QuanLyKyTucXa.PresentationLayer
         }
         public void menuSapXepSV()
         {
-            Console.WriteLine("-----------------Sap xep sinh vien---------------");
+            Console.WriteLine("-----------------SAP XEP SINH VIEN---------------");
             Console.WriteLine("|*1. Sap xep theo ten                           |");
             Console.WriteLine("|*2. Sap xep theo ma phong                      |");
             Console.WriteLine("|*3. Sap xep theo ngay vao                      |");
@@ -61,6 +61,29 @@ namespace QuanLyKyTucXa.PresentationLayer
             Console.WriteLine("|*1. Thue phong                                 |");
             Console.WriteLine("|*2. Hien thi ds thue phong                     |");
             Console.WriteLine("|*3. Sinh vien quay lai thue                    |");
+            Console.WriteLine("|*0. Ket thuc                                   |");
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine("***Moi ban chon***:");
+        }
+
+        public void menuDichVu()
+        {
+            Console.WriteLine("------------------QUAN LY DICH VU----------------");
+            Console.WriteLine("|*1. Them dich vu                               |");
+            Console.WriteLine("|*2. Hien thi ds dich vu                        |");
+            Console.WriteLine("|*3. Xoa dich vu                                |");
+            Console.WriteLine("|*3. Cap nhat dich vu                           |");
+            Console.WriteLine("|*0. Ket thuc                                   |");
+            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine("***Moi ban chon***:");
+        }
+
+        public void menuthueDichVu()
+        {
+            Console.WriteLine("----------------QUAN LY THUE DICH VU-------------");
+            Console.WriteLine("|*1. Thue dich vu                               |");
+            Console.WriteLine("|*2. Hien thi ds dich vu duoc sinh vien do thue |");
+            Console.WriteLine("|*3. Xoa dich vu duoc thue                      |");
             Console.WriteLine("|*0. Ket thuc                                   |");
             Console.WriteLine("-------------------------------------------------");
             Console.WriteLine("***Moi ban chon***:");

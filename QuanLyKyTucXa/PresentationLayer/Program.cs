@@ -410,6 +410,17 @@ namespace ketnoicsdllan1.PresentationLayer
                                     }
                                 }
                                 break;
+                            case 9:
+                                Console.WriteLine("Nhap so luong dich vu thue vao");
+                                int soluongdichvuthemvao = int.Parse(Console.ReadLine());
+                                for (int i=0;i< soluongdichvuthemvao;i++)
+                                {
+                                    SinhVien sinhvienthuedichvu = new SinhVien();
+                                    Console.WriteLine("Nhap ma sinh vien muon thue dich vu");
+                                    sinhvienthuedichvu.id = Console.ReadLine();
+                                    int idthuephong = thuePhongBll.LayMaThuePhongTheoIDSV(sinhvienthuedichvu.id);
+                                }
+                                break;
                         }
                     } while (chon != 0);
                 }

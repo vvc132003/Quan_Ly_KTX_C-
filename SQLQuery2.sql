@@ -80,6 +80,32 @@ CREATE TABLE TraPhong (
     FOREIGN KEY (idphong) REFERENCES Phong(id)
 );
 
+CREATE TABLE DichVu (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    tendichvu VARCHAR(255),
+    mota TEXT,
+    giatien FLOAT,
+    soluongcon INT,
+    trangthai VARCHAR(20),
+    ngaythem DATE,
+);
+
+
+CREATE TABLE ThueDichVu (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    idnguoidung INT,
+    idthuephong INT,
+    iddichvu INT,
+    soluongthue INT,
+    thanhtien FLOAT,
+    idsinhvien VARCHAR(255),
+    trangthai VARCHAR(20),
+    ngaythue DATE,
+    FOREIGN KEY (iddichvu) REFERENCES DichVu(id),
+    FOREIGN KEY (idnguoidung) REFERENCES NguoiDung(id),
+    FOREIGN KEY (idthuephong) REFERENCES ThuePhong(id),
+    FOREIGN KEY (idsinhvien) REFERENCES SinhVien(id)
+);
 
 
 INSERT INTO NguoiDung (hoten, sodienthoai, diachi, chucvu, matkhau, tendangnhap)

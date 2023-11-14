@@ -60,5 +60,37 @@ namespace QuanLyKyTucXa.DataAccessLayer
 
             return danhSachThuePhong;
         }
+
+        public int LayMaThuePhongTheoIDSV(string masv)
+        {
+            List<ThuePhong> danhSachThuePhong = new List<ThuePhong>();
+
+            connection.Open();
+
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            string sql = "SELECT * FROM ThuePhong WHERE idsinhvien = @idsinhvien";
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@idsinhvien", masv);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return (int)reader["id"];
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+            }
+            if (connection.State == ConnectionState.Open)
+            {
+                connection.Close();
+            }
+        }     
     }
 }

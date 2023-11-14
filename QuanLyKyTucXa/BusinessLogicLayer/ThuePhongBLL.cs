@@ -41,5 +41,12 @@ namespace QuanLyKyTucXa.BusinessLogicLayer
                 Console.WriteLine("Không có sinh viên nào trong danh sách.");
             }
         }
+        public int LayMaThuePhongTheoIDSV(string masv)
+        {
+            int idthuephong = thuePhonhDAL.LayMaThuePhongTheoIDSV(masv);
+            return idthuephong;
+        }
+
     }
+
 }
