@@ -36,7 +36,7 @@ namespace QuanLyKyTucXa.DataTransferObjects
         {
             Console.Write("Nhap so luong thue: ");
             soluongthue = int.Parse(Console.ReadLine());
-            Console.Write("Ngay thue (MM/dd/yyyy): ");
+            Console.Write("Ngay thue (dd/MM/yyyy): ");
             ngaythue = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
 

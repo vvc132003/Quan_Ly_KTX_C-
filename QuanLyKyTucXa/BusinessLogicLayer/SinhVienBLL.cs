@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -189,6 +191,34 @@ namespace ketnoicsdllan1.BusinessLogicLayer
             }
         }
 
+
+        public void GuiEmail(string email,string masv,string tensinhvien,int sophong,DateTime ngayvao)
+        {
+            try
+            {
+                string fromEmail = "vvc132003@gmail.com";
+                string password = "qyqgwwjbbajzrrex"; 
+                string toEmail = email;
+                MailMessage message = new MailMessage(fromEmail, toEmail);
+                message.Subject = "Ban da thue phong thanh cong";
+                StringBuilder bodyBuilder = new StringBuilder();
+                bodyBuilder.AppendLine($"Ma sinh vien: {masv}");
+                bodyBuilder.AppendLine($"Ten sinh vien: {tensinhvien}");
+                bodyBuilder.AppendLine($"So phong: {sophong}");
+                bodyBuilder.AppendLine($"Ngay vao: {ngayvao}");
+
+                message.Body = bodyBuilder.ToString();
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential(fromEmail, password);
+                smtpClient.EnableSsl = true;
+                smtpClient.Send(message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Loi: " + ex.Message);
+            }
+        }
 
     }
 

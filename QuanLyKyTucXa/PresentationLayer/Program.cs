@@ -237,11 +237,11 @@ namespace ketnoicsdllan1.PresentationLayer
                                                 do
                                                 {
                                                     Console.Write("Lua chon cua ban: ");
-                                                    if (!int.TryParse(Console.ReadLine(), out luaChonloaivipham) || luaChonloaivipham < 1 || luaChonloaivipham > 3)
+                                                    if (!int.TryParse(Console.ReadLine(), out luaChonloaivipham) || luaChonloaivipham < 1 || luaChonloaivipham > 4)
                                                     {
                                                         Console.WriteLine("Vui long nhap lua chon hop le!");
                                                     }
-                                                } while (luaChonloaivipham < 1 || luaChonloaivipham > 5);
+                                                } while (luaChonloaivipham < 1 || luaChonloaivipham > 4);
                                                 switch (luaChonloaivipham)
                                                 {
                                                     case 1:
@@ -315,6 +315,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                                         phongBLL.CapNhatSoNguoiO(phong, phong.songuoio + 1);
                                                         int idnguoidung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
                                                         thuePhongBll.ThuePhong(sinhVien.id, id, idnguoidung, sinhVien.ngayvao);
+                                                        studentBLL.GuiEmail(sinhVien.email, sinhVien.id, sinhVien.tensinhvien, id, sinhVien.ngayvao);
                                                         Console.WriteLine("Thue phong thanh cong!");
                                                     }
                                                     else
@@ -444,7 +445,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                     sinhvienthuelai.id = Console.ReadLine();
                                     Console.WriteLine("Nhap id phong ma sinh vien muon thue lai:");
                                     sinhvienthuelai.idphong = int.Parse(Console.ReadLine());
-                                    Console.Write("Ngay vao (MM/dd/yyyy): ");
+                                    Console.Write("Ngay vao (dd/MM/yyyy): ");
                                     sinhvienthuelai.ngayvao = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                     Tuple<int, DateTime, string,int> thuelaiphong = studentBLL.LayThongTinPhongVaNgayThue(sinhvienthuelai.id);
                                     string gioiTinhthuelai = thuelaiphong.Item3;
@@ -536,6 +537,8 @@ namespace ketnoicsdllan1.PresentationLayer
                                 } while (dichvu != 0);
                                 break;
                             case 10:
+
+                                /// thuê dịch vụ
                                 Console.WriteLine("Nhap so luong thue dich vu:");
                                 int soluongdichvuthue = int.Parse(Console.ReadLine());
                                 for (int i=0;i< soluongdichvuthue; i++)
@@ -555,7 +558,8 @@ namespace ketnoicsdllan1.PresentationLayer
                                             thueDichVu.NhapThongTinThueDichVu();
                                             float thanhTien = dichVu.giatien * thueDichVu.soluongthue;
                                             int idNguoiDung = nguoiDungBLL.LayIDNguoiDung(tendangnhap);
-                                            dichVuBLL.CapNhatSoLuongConChoDV(dichVu.id, dichVu.soluongcon - thueDichVu.soluongthue);
+                                            int soluongcon = dichVu.soluongcon - thueDichVu.soluongthue;
+                                            dichVuBLL.CapNhatSoLuongConChoDV(dichVu.id, soluongcon);
                                             thueDichVuBLL.ThemThueDichVu(thueDichVu, idNguoiDung, idthuephong, dichVu.id, thanhTien, sinhvienthuedichvu.id);
                                             Console.WriteLine("Thue dich vu thanh cong!");
                                         }

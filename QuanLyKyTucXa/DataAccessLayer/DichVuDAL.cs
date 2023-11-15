@@ -65,13 +65,12 @@ namespace QuanLyKyTucXa.DataAccessLayer
         public void SuaDichVu(DichVu dichVu)
         {
             connection.Open();
-            string query = "UPDATE DichVu SET tendichvu = @tenDichVu, mota = @mota, trangthai = @trangthai, " +
+            string query = "UPDATE DichVu SET tendichvu = @tendichvu, mota = @mota, " +
                 " soluongcon = @soluongcon, ngaythem = @ngaythem, giatien = @giatien WHERE id = @id";
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@tendichvu", dichVu.tendichvu);
                 command.Parameters.AddWithValue("@mota", dichVu.mota);
-                command.Parameters.AddWithValue("@trangthai", dichVu.trangthai);
                 command.Parameters.AddWithValue("@soluongcon", dichVu.soluongcon);
                 command.Parameters.AddWithValue("@ngaythem", dichVu.ngaythem);
                 command.Parameters.AddWithValue("@giatien", dichVu.giatien);
@@ -94,35 +93,44 @@ namespace QuanLyKyTucXa.DataAccessLayer
 
         public DichVu LayDichVuTheoTen(string tendichvu)
         {
-            if (connection.State == ConnectionState.Closed)
+            using (SqlConnection connection = DBUtils.GetDBConnection())
             {
-                connection.Open();
-            }
-            string query = "SELECT * FROM DichVu WHERE tendichvu = @tendichvu";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@tendichvu", tendichvu);
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                try
                 {
-                    return new DichVu
+                    if (connection.State == ConnectionState.Closed)
                     {
-                        id = Convert.ToInt32(reader["id"]),
-                        tendichvu = reader["tendichvu"].ToString(),
-                        mota = reader["mota"].ToString(),
-                        trangthai = reader["trangthai"].ToString(),
-                        soluongcon = Convert.ToInt32(reader["soluongcon"]),
-                        ngaythem = Convert.ToDateTime(reader["ngaythem"]),
-                        giatien = Convert.ToSingle(reader["giatien"])
-                    };
+                        connection.Open();
+                    }
+                    string query = "SELECT * FROM DichVu WHERE tendichvu = @tendichvu";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@tendichvu", tendichvu);
+
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            return new DichVu
+                            {
+                                id = Convert.ToInt32(reader["id"]),
+                                tendichvu = reader["tendichvu"].ToString(),
+                                mota = reader["mota"].ToString(),
+                                trangthai = reader["trangthai"].ToString(),
+                                soluongcon = Convert.ToInt32(reader["soluongcon"]),
+                                ngaythem = Convert.ToDateTime(reader["ngaythem"]),
+                                giatien = Convert.ToSingle(reader["giatien"])
+                            };
+                        }
+                        return null;
+                    }
                 }
-                return null;
-            }
-            if (connection.State == ConnectionState.Open)
-            {
-                connection.Close();
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                    return null;
+                }
+            } 
         }
+
         public void CapNhatSoLuongConChoDV(int iddv, int soluongcon)
         {
             if (connection.State == ConnectionState.Closed)

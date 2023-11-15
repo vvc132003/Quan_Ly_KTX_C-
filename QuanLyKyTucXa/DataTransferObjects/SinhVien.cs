@@ -55,7 +55,8 @@ namespace QuanLyKyTucXa.DataTransferObjects
             quequan = Console.ReadLine();
 
             Console.Write("Ngày sinh (MM/dd/yyyy): ");
-            ngaysinh = DateTime.ParseExact(Console.ReadLine(), "M/d/yyyy", CultureInfo.InvariantCulture);
+            ngaysinh = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
 
             Console.Write("Ngay vao (MM/dd/yyyy): ");
             ngayvao = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
