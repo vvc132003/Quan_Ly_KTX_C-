@@ -30,13 +30,13 @@ namespace QuanLyKyTucXa.DataTransferObjects
 
         public void NhapThongTinDichVu()
         {
-            Console.Write("Nhap ten dich vu");
+            Console.Write("Nhap ten dich vu:");
             tendichvu = Console.ReadLine();
-            Console.Write("Nhap mo ta");
+            Console.Write("Nhap mo ta:");
             mota = Console.ReadLine();
             Console.Write("Nhap so luong con: ");
             soluongcon = int.Parse(Console.ReadLine());
-            Console.Write("Nhap gia tien");
+            Console.Write("Nhap gia tien:");
             giatien = float.Parse(Console.ReadLine());  
             Console.Write("Ngay them (MM/dd/yyyy): ");
             ngaythem = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);

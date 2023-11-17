@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyKyTucXa.DataAccessLayer
 {
-    internal class KyLuatDAL
+    internal class KyLuatDAL : IKyLuatDAL
     {
         private SqlConnection connection = DBUtils.GetDBConnection();
 

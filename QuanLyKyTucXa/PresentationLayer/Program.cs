@@ -172,7 +172,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                             }
                                             break;
                                         case 3:
-                                            // Hàm tìm kiếm sinh vien
+                                            // tìm kiếm sinh vien
                                             studentBLL.TimKiemSinhVienTheoTen();
                                             break;
                                         case 4:
@@ -200,7 +200,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                                 case 1:
                                                     Console.WriteLine("Ban chon tang(Z) hoac giam(Y)");
                                                     string chonyz = Console.ReadLine();
-                                                    if(chonyz == "y") {
+                                                    if(chonyz == "Y") {
                                                         Console.WriteLine("Danh sach sinh vien sau khi sap xep là:");
                                                         studentBLL.SapXepSinhVienGiamDanTheoTen();
                                                     }
@@ -228,11 +228,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                                 Tuple<int, DateTime, string, int> sts = studentBLL.LayThongTinPhongVaNgayThue(idsinhvienkyluat);
                                                 int solanvipham = sts.Item4;
                                                 KyLuat kyLuat = new KyLuat();
-                                                Console.WriteLine("Chon Loai Vi Pham:");
-                                                Console.WriteLine("1. Ngu day muon");
-                                                Console.WriteLine("2. Ve sinh");
-                                                Console.WriteLine("3. Gio giac");
-                                                Console.WriteLine("4. Danh nhau");
+                                                Console.WriteLine("Chon Loai Vi Pham:1. Ngu day muon || 2. Ve sinh || 3. Gio giac || 4. Danh nhau");
                                                 int luaChonloaivipham;
                                                 do
                                                 {
@@ -353,7 +349,7 @@ namespace ketnoicsdllan1.PresentationLayer
                                     Console.WriteLine("Nhap thong tin chuyen phong:");
                                     Console.Write("Nhap ma sinh vien muon chuyen: ");
                                     string masv = Console.ReadLine();
-                                    Console.Write("Nhap ID Phong Moi: ");
+                                    Console.Write("Nhap id phong moi: ");
                                     int idphongmoi = int.Parse(Console.ReadLine());
                                     Phong phongmoi = phongBLL.LayPhongTheoMa(idphongmoi);
                                     ChuyenPhong chuyenPhong = new ChuyenPhong();
@@ -366,9 +362,9 @@ namespace ketnoicsdllan1.PresentationLayer
                                         string gioiTinh = st.Item3;
                                         if(phongmoi.loaiphong == gioiTinh)
                                         {
-                                            if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month > ngaynhaphoc.Month 
+                                            if (idphongcu != 0 && (chuyenPhong.ngaychuyen.Month >= ngaynhaphoc.Month 
                                                 || (chuyenPhong.ngaychuyen.Month == ngaynhaphoc.Month 
-                                                && chuyenPhong.ngaychuyen.Day > ngaynhaphoc.Day)))
+                                                && chuyenPhong.ngaychuyen.Day >= ngaynhaphoc.Day)))
                                             {
                                                 Phong phongupdatecu = phongBLL.LayPhongTheoMa(idphongcu);
                                                 phongBLL.CapNhatSoNguoiO(phongmoi, phongmoi.songuoio + 1);
@@ -562,6 +558,10 @@ namespace ketnoicsdllan1.PresentationLayer
                                             dichVuBLL.CapNhatSoLuongConChoDV(dichVu.id, soluongcon);
                                             thueDichVuBLL.ThemThueDichVu(thueDichVu, idNguoiDung, idthuephong, dichVu.id, thanhTien, sinhvienthuedichvu.id);
                                             Console.WriteLine("Thue dich vu thanh cong!");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Ten dich vu hoac so phong khong ton tai!");
                                         }
                                     }
                                     else

@@ -1,5 +1,6 @@
 ﻿using ketnoicsdllan1;
 using ketnoicsdllan1.BusinessLogicLayer;
+using NPOI.SS.Formula.Functions;
 using QuanLyKyTucXa.DataTransferObjects;
 using System;
 using System.Collections.Generic;
@@ -190,8 +191,19 @@ internal class SinhVienDAL
             {
                 SinhVien sinhvien = new SinhVien
                 {
+                    id = reader["id"].ToString(),
                     tensinhvien = reader["tensinhvien"].ToString(),
-                    idphong = (int)reader["idphong"]
+                    khoahoc = reader["khoahoc"].ToString(),
+                    nganhhoc = reader["nganhhoc"].ToString(),
+                    email = reader["email"].ToString(),
+                    sodienthoai = reader["sodienthoai"].ToString(),
+                    idphong = (int)reader["idphong"],
+                    gioitinh = reader["gioitinh"].ToString(),
+                    quequan = reader["quequan"].ToString(),
+                    trang_thai = reader["trang_thai"].ToString(),
+                    solanvipham = (int)reader["solanvipham"],
+                    ngayvao = (DateTime)reader["ngayvao"],
+                    ngaysinh = (DateTime)reader["ngaysinh"]
                 };
                 sinhVienlist.Add(sinhvien);
             }
