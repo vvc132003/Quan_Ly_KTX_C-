@@ -120,6 +120,16 @@ CREATE TABLE KyLuat (
     FOREIGN KEY (idsinhvien) REFERENCES SinhVien(id)
 );
 
+CREATE TABLE ThongTinKhenThuong (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    idsinhvien VARCHAR(255),
+    idnguoidung INT,
+    lydo VARCHAR(255),
+    ngaykhen DATE,
+    FOREIGN KEY (idsinhvien) REFERENCES SinhVien(id),
+    FOREIGN KEY (idnguoidung) REFERENCES NguoiDung(id)
+);
+
 
 INSERT INTO NguoiDung (hoten, sodienthoai, diachi, chucvu, matkhau, tendangnhap)
 VALUES ('Vo Van Chinh', '0123456789', '123 qt', 'Admin', '123', 'adminn');
